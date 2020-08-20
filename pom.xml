@@ -16,6 +16,12 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+
+		<!-- Dependency Versions -->
+		<swagger-annotations.version>1.6.2</swagger-annotations.version>
+
+		<!-- Plugin Configuration -->
+		<openapi-generator-maven-plugin.version>4.3.1</openapi-generator-maven-plugin.version>
 	</properties>
 
 	<dependencies>
@@ -44,6 +50,29 @@
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
+
+		<!-- Code Gen Dependencies -->
+		<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-annotations</artifactId>
+			<version>${swagger-annotations.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>6.1.5.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>2.0.1.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.findbugs</groupId>
+			<artifactId>jsr305</artifactId>
+			<version>3.0.2</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -67,6 +96,37 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.openapitools</groupId>
+				<artifactId>openapi-generator-maven-plugin</artifactId>
+				<version>${openapi-generator-maven-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>generate-riot-api</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<inputSpec>${project.basedir}/src/main/resources/openapi/riot-api.yml</inputSpec>
+							<modelPackage>com.fp.tft.riot.api</modelPackage>
+							<generatorName>java</generatorName>
+							<generateApis>false</generateApis>
+							<generateApiTests>false</generateApiTests>
+							<generateApiDocumentation>false</generateApiDocumentation>
+							<generateModels>true</generateModels>
+							<generateModelTests>false</generateModelTests>
+							<generateModelDocumentation>false</generateModelDocumentation>
+							<generateSupportingFiles>false</generateSupportingFiles>
+							<library>resttemplate</library>
+							<configOptions>
+								<useBeanValidation>true</useBeanValidation>
+								<performBeanValidation>true</performBeanValidation>
+								<dateLibrary>java8</dateLibrary>
+							</configOptions>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

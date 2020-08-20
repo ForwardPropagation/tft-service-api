@@ -1,10 +1,10 @@
-package com.fp.tftserviceapi;
+package com.fp.tft;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class TftServiceApiApplicationTests {
+class TFTServiceApiApplicationTests {
 
 	@Test
 	void contextLoads() {
