@@ -14,7 +14,7 @@ public class SummonerController implements SummonerApi {
     private final SummonerService summonerService;
 
     @Override
-    public ResponseEntity<Summoner> getUserByName(String username) {
+    public ResponseEntity<Summoner> getSummonerByName(String username) {
         return ResponseEntity.ok(summonerService.getSummonerByName(username));
     }
 }

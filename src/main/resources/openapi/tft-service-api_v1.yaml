@@ -23,7 +23,7 @@ paths:
       tags:
       - user
       summary: Get user by user name
-      operationId: getUserByName
+      operationId: getSummonerByName
       parameters:
       - name: username
         in: path

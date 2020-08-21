@@ -8,12 +8,12 @@ import org.springframework.stereotype.Component;
 public class SummonerTransformer {
 
     public Summoner transformSummonerDtoToSummoner(SummonerV4SummonerDTO summonerDTO) {
-        Summoner summoner = new Summoner();
-        summoner.setSummonerName(summonerDTO.getName());
-        summoner.setSummonerId(summonerDTO.getId());
-        summoner.setPuuid(summonerDTO.getPuuid());
-        summoner.setSummonerLevel(summonerDTO.getSummonerLevel());
-        summoner.setRevisionDate(summonerDTO.getRevisionDate());
-        return summoner;
+        return Summoner.builder()
+                .summonerName(summonerDTO.getName())
+                .summonerId(summonerDTO.getId())
+                .puuid(summonerDTO.getPuuid())
+                .summonerLevel(summonerDTO.getSummonerLevel())
+                .revisionDate(summonerDTO.getRevisionDate())
+                .build();
     }
 }

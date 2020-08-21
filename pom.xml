@@ -151,8 +151,9 @@
 							<generateModelDocumentation>true</generateModelDocumentation>
 							<supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>
 							<configOptions>
+								<additionalModelTypeAnnotations>@lombok.Builder</additionalModelTypeAnnotations>
+								<skipDefaultInterface>true</skipDefaultInterface>
 								<interfaceOnly>true</interfaceOnly>
-								<delegatePattern>true</delegatePattern>
 								<useBeanValidation>true</useBeanValidation>
 								<performBeanValidation>true</performBeanValidation>
 								<dateLibrary>java8</dateLibrary>
