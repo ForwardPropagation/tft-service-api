@@ -16,7 +16,7 @@ class TFTServiceApiApplicationTests {
 
 	@Test
 	void contextLoads() {
-		summonerProvider.getSummonerByName("xdeathvdealerx").block();
+		summonerProvider.getSummonerByName("xdeathvdealerx");
 	}
 
 }

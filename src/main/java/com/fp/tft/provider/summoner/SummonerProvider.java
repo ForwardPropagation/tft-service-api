@@ -1,32 +1,61 @@
 package com.fp.tft.provider.summoner;
 
+import com.fp.tft.Constants;
+import com.fp.tft.provider.TFTServiceConfig;
 import com.fp.tft.riot.api.SummonerV4SummonerDTO;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
+import org.springframework.http.*;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
-@Service
-@RequiredArgsConstructor
+@Component
 @Slf4j
 public class SummonerProvider {
 
-    public static final String SUMMONER_BY_NAME = "by-name/{summonerName}";
+    private final RestTemplate restTemplate;
 
-    @Qualifier("SummonerProvider")
-    @NonNull
-    private final WebClient webClient;
+    private final TFTServiceConfig tftServiceConfig;
 
-    public Mono<SummonerV4SummonerDTO> getSummonerByName(final String summonerName) {
-        return webClient.get()
-                .uri(uriBuilder -> uriBuilder
-                        .path(SUMMONER_BY_NAME)
-                        .build(summonerName))
-                .retrieve()
-                .bodyToMono(SummonerV4SummonerDTO.class)
-                .doOnSuccess(response -> log.debug("getSummonerByName Response: {}", response.toString()));
+    private final SummonerServiceConfig summonerServiceConfig;
+
+    public SummonerProvider(@Qualifier("SummonerProvider") RestTemplate restTemplate,
+                            TFTServiceConfig tftServiceConfig, SummonerServiceConfig summonerServiceConfig) {
+        this.restTemplate = restTemplate;
+        this.tftServiceConfig = tftServiceConfig;
+        this.summonerServiceConfig = summonerServiceConfig;
+    }
+
+    public SummonerV4SummonerDTO getSummonerByName(String summonerName) {
+        ResponseEntity<SummonerV4SummonerDTO> response = null;
+
+        try {
+            response = restTemplate.exchange(
+                    getSummonerNameUrl(summonerName),
+                    HttpMethod.GET,
+                    new HttpEntity<>(getHttpHeaders()),
+                    SummonerV4SummonerDTO.class);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+
+        return response.getBody();
+    }
+
+    private String getSummonerNameUrl(String summonerName) {
+        return UriComponentsBuilder.fromHttpUrl(summonerServiceConfig.getBaseUri())
+                .pathSegment("by-name", summonerName)
+                .build()
+                .toUriString();
+    }
+
+    private HttpHeaders getHttpHeaders() {
+        final HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+        headers.set(Constants.RIOT_API_KEY, tftServiceConfig.getApiKey());
+        return headers;
     }
 }
