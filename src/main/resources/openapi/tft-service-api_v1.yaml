@@ -18,14 +18,14 @@ tags:
 - name: summoner
   description: Operations about summoner
 paths:
-  /summoner/{username}:
+  /summoner/{summonerName}:
     get:
       tags:
-      - user
-      summary: Get user by user name
+      - summoner
+      summary: Get summoner by summoner name
       operationId: getSummonerByName
       parameters:
-      - name: username
+      - name: summonerName
         in: path
         required: true
         schema:

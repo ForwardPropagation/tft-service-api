@@ -7,12 +7,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @Component
 @Slf4j
 public class SummonerProvider {
+
+    public static String BY_NAME_PATH = "by-name";
 
     private final RestTemplate restTemplate;
 
@@ -28,7 +31,7 @@ public class SummonerProvider {
     }
 
     public SummonerV4SummonerDTO getSummonerByName(String summonerName) {
-        ResponseEntity<SummonerV4SummonerDTO> response = null;
+        ResponseEntity<SummonerV4SummonerDTO> response;
 
         try {
             response = restTemplate.exchange(
@@ -37,9 +40,12 @@ public class SummonerProvider {
                     new HttpEntity<>(getHttpHeaders()),
                     SummonerV4SummonerDTO.class);
 
+        } catch (RestClientResponseException e) {
+            log.debug("Summoner Service Error with Status Code {} and Response: {}", e.getRawStatusCode(), e.getResponseBodyAsString());
+            log.error("Error calling TFT Summoner Service with Status Code: {}", e.getRawStatusCode());
+            throw new SummonerServiceException("Error calling TFT Summoner Service!", e);
         } catch (Exception e) {
-            e.printStackTrace();
-            throw e;
+            throw new SummonerServiceException("Something went wrong when calling TFT Summoner Service", e);
         }
 
         return response.getBody();
@@ -47,7 +53,7 @@ public class SummonerProvider {
 
     private String getSummonerNameUrl(String summonerName) {
         return UriComponentsBuilder.fromHttpUrl(summonerServiceConfig.getBaseUri())
-                .pathSegment("by-name", summonerName)
+                .pathSegment(BY_NAME_PATH, summonerName)
                 .build()
                 .toUriString();
     }
