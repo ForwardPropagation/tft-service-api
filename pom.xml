@@ -192,7 +192,27 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<version>3.13.0</version>
+				<executions>
+					<execution>
+						<id>pmd</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+						<configuration>
+							<excludeRoots>
+								<excludeRoot>target/generated-sources/openapi</excludeRoot>
+							</excludeRoots>
+							<outputDirectory>${project.build.directory}/pmd</outputDirectory>
+							<format>xml</format>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
-
 </project>
