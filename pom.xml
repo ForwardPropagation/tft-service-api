@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.3.3.RELEASE</version>
+		<version>2.3.7.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.fp</groupId>
@@ -19,7 +19,7 @@
 
 		<!-- Dependency Versions -->
 		<swagger-annotations.version>1.6.2</swagger-annotations.version>
-		<org.projectlombok.version>1.18.12</org.projectlombok.version>
+		<org.projectlombok.version>1.18.16</org.projectlombok.version>
 
 		<!-- Plugin Configuration -->
 		<openapi-generator-maven-plugin.version>4.3.1</openapi-generator-maven-plugin.version>
@@ -119,6 +119,34 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.6</version>
+				<configuration>
+					<excludes>
+						<exclude>**/com/fp/tft/riot/**</exclude>
+						<exclude>**/com/fp/tft/api/**</exclude>
+						<exclude>**/com/fp/tft/models/**</exclude>
+						<exclude>**/com/fp/tft/Application.class</exclude>
+					</excludes>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<!-- attached to Maven test phase -->
+					<execution>
+						<id>report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
