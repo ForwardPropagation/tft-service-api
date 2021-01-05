@@ -1,13 +1,13 @@
-package com.fp.tftserviceapi;
+package com.fp.tft;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
-public class TftServiceApiApplication {
+@SpringBootApplication(scanBasePackages = {"com.fp.tft"})
+public class Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(TftServiceApiApplication.class, args);
+		SpringApplication.run(Application.class, args);
 	}
 
 }

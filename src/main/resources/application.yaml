@@ -1,0 +1,22 @@
+server:
+  port: 8080
+
+spring:
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+
+com:
+  fp:
+    tft:
+      downstream:
+        apiKey: RGAPI-4a963315-4a1d-46a3-b70c-3b86b6728cf5
+        summoner:
+          base-uri: https://na1.api.riotgames.com/tft/summoner/v1/summoners/
+          read-timeout: 5000
+          connect-timeout: 5000
+
+logging:
+  level:
+    root: INFO
+    com.fp.tft: INFO
