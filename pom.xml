@@ -21,6 +21,7 @@
 		<swagger-annotations.version>1.6.2</swagger-annotations.version>
 		<org.projectlombok.version>1.18.16</org.projectlombok.version>
 		<jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version>
+		<wiremock-jre8.version>2.27.2</wiremock-jre8.version>
 
 		<!-- Plugin Configuration -->
 		<openapi-generator-maven-plugin.version>4.3.1</openapi-generator-maven-plugin.version>
@@ -103,6 +104,12 @@
 		<dependency>
 			<groupId>io.projectreactor</groupId>
 			<artifactId>reactor-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.github.tomakehurst</groupId>
+			<artifactId>wiremock-jre8</artifactId>
+			<version>${wiremock-jre8.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -210,6 +217,22 @@
 								<dateLibrary>java8</dateLibrary>
 							</configOptions>
 						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<configuration>
+					<skip>false</skip>
+					<testFailureIgnore>false</testFailureIgnore>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
 					</execution>
 				</executions>
 			</plugin>

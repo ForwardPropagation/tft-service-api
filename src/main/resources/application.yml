@@ -10,7 +10,7 @@ com:
   fp:
     tft:
       downstream:
-        apiKey: RGAPI-4a963315-4a1d-46a3-b70c-3b86b6728cf5
+        apiKey: RGAPI-092f686c-0b61-4db4-ad90-e5c61792daa8
         summoner:
           base-uri: https://na1.api.riotgames.com/tft/summoner/v1/summoners/
           read-timeout: 5000
@@ -20,3 +20,4 @@ logging:
   level:
     root: INFO
     com.fp.tft: INFO
+    org.apache.http.wire: INFO

@@ -1,4 +1,4 @@
-package com.fp.tft;
+package com.fp.tft.rest;
 
 import com.fp.tft.api.SummonerApi;
 import com.fp.tft.api.models.Summoner;
