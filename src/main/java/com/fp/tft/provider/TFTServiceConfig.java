@@ -12,5 +12,7 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties("com.fp.tft.downstream")
 public class TFTServiceConfig {
 
+    public static final String RIOT_API_KEY = "X-Riot-Token";
+
     private String apiKey;
 }

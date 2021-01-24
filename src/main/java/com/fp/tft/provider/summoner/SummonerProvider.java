@@ -1,6 +1,5 @@
 package com.fp.tft.provider.summoner;
 
-import com.fp.tft.Constants;
 import com.fp.tft.provider.TFTServiceConfig;
 import com.fp.tft.riot.api.SummonerV4SummonerDTO;
 import lombok.extern.slf4j.Slf4j;
@@ -57,7 +56,7 @@ public class SummonerProvider {
     private HttpHeaders getHttpHeaders() {
         final HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-        headers.set(Constants.RIOT_API_KEY, tftServiceConfig.getApiKey());
+        headers.set(TFTServiceConfig.RIOT_API_KEY, tftServiceConfig.getApiKey());
         return headers;
     }
 }
