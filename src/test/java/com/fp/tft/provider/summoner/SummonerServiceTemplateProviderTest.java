@@ -10,7 +10,7 @@ import org.springframework.web.client.RestTemplate;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class SummonerServiceTemplateProviderTest {
@@ -38,5 +38,10 @@ class SummonerServiceTemplateProviderTest {
 
         // Assert
         assertNotNull(res);
+
+        verify(summonerServiceConfig, times(1)).getBaseUri();
+        verify(summonerServiceConfig, times(1)).getReadTimeout();
+        verify(summonerServiceConfig, times(1)).getConnectTimeout();
+        verify(restTemplateBuilder, times(1)).uriTemplateHandler(any());
     }
 }

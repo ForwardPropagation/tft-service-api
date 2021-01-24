@@ -1,6 +1,7 @@
-package com.fp.tft;
+package com.fp.tft.rest;
 
 import com.fp.tft.api.models.Summoner;
+import com.fp.tft.rest.SummonerController;
 import com.fp.tft.service.SummonerService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
