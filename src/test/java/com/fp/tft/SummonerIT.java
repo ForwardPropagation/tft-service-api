@@ -1,6 +1,8 @@
 package com.fp.tft;
 
+import com.fp.tft.api.models.ServerError;
 import com.fp.tft.api.models.Summoner;
+import com.fp.tft.exception.ErrorCodes;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -53,10 +55,39 @@ public class SummonerIT {
         assertEquals(31, res.getSummonerLevel());
     }
 
+    @DisplayName("Test getSummonerByName Downstream Error")
+    @Test
+    void getSummonerByName_Downstream_Error() {
+
+        // Arrange
+        final HttpHeaders httpHeaders = new HttpHeaders();
+
+        String summonerName = "summonerTestName";
+        stubGetBySummonerNameCall_Server_Error(summonerName);
+
+        // Act
+        final ResponseEntity<ServerError> response = testRestTemplate.exchange("/summoner/{summonerName}",
+                HttpMethod.GET, new HttpEntity<>(httpHeaders), ServerError.class, summonerName);
+
+        // Assert
+        assertNotNull(response);
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+        assertNotNull(response.getBody());
+
+        ServerError res = response.getBody();
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), res.getCode());
+        assertEquals(ErrorCodes.TFT_SERVICE_ERROR.getResponseErrorCode(), res.getMessage());
+    }
+
     private void stubGetBySummonerNameCall(String summonerName) {
         WireMock.stubFor(WireMock.get("/tft/summoner/v1/summoners/by-name/"+summonerName)
                 .willReturn(WireMock.aResponse().withStatus(200)
                         .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                         .withBodyFile("getBySummonerName_response_200.json")));
+    }
+
+    private void stubGetBySummonerNameCall_Server_Error(String summonerName) {
+        WireMock.stubFor(WireMock.get("/tft/summoner/v1/summoners/by-name/"+summonerName)
+                .willReturn(WireMock.aResponse().withStatus(500)));
     }
 }

@@ -27,11 +27,11 @@ public class WiremockTestExtension extends WireMockServer implements BeforeAllCa
 
     @Override
     public void afterAll(ExtensionContext context) throws Exception {
-        this.resetAll();
+        this.stop();
     }
 
     @Override
     public void afterEach(ExtensionContext context) throws Exception {
-        this.stop();
+        this.resetAll();
     }
 }
