@@ -21,13 +21,9 @@ public class SummonerProvider {
 
     private final TFTServiceConfig tftServiceConfig;
 
-    private final SummonerServiceConfig summonerServiceConfig;
-
-    public SummonerProvider(@Qualifier("SummonerProvider") RestTemplate restTemplate,
-                            TFTServiceConfig tftServiceConfig, SummonerServiceConfig summonerServiceConfig) {
+    public SummonerProvider(@Qualifier("SummonerProvider") RestTemplate restTemplate, TFTServiceConfig tftServiceConfig) {
         this.restTemplate = restTemplate;
         this.tftServiceConfig = tftServiceConfig;
-        this.summonerServiceConfig = summonerServiceConfig;
     }
 
     public SummonerV4SummonerDTO getSummonerByName(String summonerName) {
@@ -52,7 +48,7 @@ public class SummonerProvider {
     }
 
     private String getSummonerNameUrl(String summonerName) {
-        return UriComponentsBuilder.fromHttpUrl(summonerServiceConfig.getBaseUri())
+        return UriComponentsBuilder.newInstance()
                 .pathSegment(BY_NAME_PATH, summonerName)
                 .build()
                 .toUriString();
