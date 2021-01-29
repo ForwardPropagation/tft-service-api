@@ -1,5 +1,6 @@
 package com.fp.tft.provider.summoner;
 
+import com.fp.tft.exception.ResourceNotFoundException;
 import com.fp.tft.provider.TFTServiceConfig;
 import com.fp.tft.riot.api.SummonerV4SummonerDTO;
 import org.junit.jupiter.api.Test;
@@ -72,6 +73,29 @@ class SummonerProviderTest {
 
         // Act & Assert
         assertThrows(SummonerServiceException.class, () -> objectToTest.getSummonerByName(summonerName));
+
+        verify(tftServiceConfig, times(1)).getApiKey();
+        verify(restTemplate, times(1))
+                .exchange(anyString(), eq(HttpMethod.GET), any(HttpEntity.class), eq(SummonerV4SummonerDTO.class));
+    }
+
+    @Test
+    void getSummonerByName_Downstream_Not_Found_Exception() {
+
+        // Arrange
+        String summonerName = "testSummoner";
+
+        when(tftServiceConfig.getApiKey()).thenReturn(APIKEY);
+
+        RestClientResponseException exception = mock(RestClientResponseException.class);
+        when(exception.getRawStatusCode()).thenReturn(404);
+        when(exception.getResponseBodyAsString()).thenReturn("");
+
+        when(restTemplate.exchange(eq("/"+SummonerProvider.BY_NAME_PATH+"/"+summonerName), eq(HttpMethod.GET),
+                any(HttpEntity.class), eq(SummonerV4SummonerDTO.class))).thenThrow(exception);
+
+        // Act & Assert
+        assertThrows(ResourceNotFoundException.class, () -> objectToTest.getSummonerByName(summonerName));
 
         verify(tftServiceConfig, times(1)).getApiKey();
         verify(restTemplate, times(1))

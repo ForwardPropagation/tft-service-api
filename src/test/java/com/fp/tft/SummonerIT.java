@@ -63,6 +63,30 @@ public class SummonerIT {
         final HttpHeaders httpHeaders = new HttpHeaders();
 
         String summonerName = "summonerTestName";
+        stubGetBySummonerNameCall_Server_Not_Found_Error(summonerName);
+
+        // Act
+        final ResponseEntity<ServerError> response = testRestTemplate.exchange("/summoner/{summonerName}",
+                HttpMethod.GET, new HttpEntity<>(httpHeaders), ServerError.class, summonerName);
+
+        // Assert
+        assertNotNull(response);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertNotNull(response.getBody());
+
+        ServerError res = response.getBody();
+        assertEquals(HttpStatus.NOT_FOUND.value(), res.getCode());
+        assertEquals(ErrorCodes.NOT_FOUND.getResponseErrorCode(), res.getMessage());
+    }
+
+    @DisplayName("Test getSummonerByName Downstream Not Found Error")
+    @Test
+    void getSummonerByName_Downstream_Not_Found_Error() {
+
+        // Arrange
+        final HttpHeaders httpHeaders = new HttpHeaders();
+
+        String summonerName = "summonerTestName";
         stubGetBySummonerNameCall_Server_Error(summonerName);
 
         // Act
@@ -89,5 +113,12 @@ public class SummonerIT {
     private void stubGetBySummonerNameCall_Server_Error(String summonerName) {
         WireMock.stubFor(WireMock.get("/tft/summoner/v1/summoners/by-name/"+summonerName)
                 .willReturn(WireMock.aResponse().withStatus(500)));
+    }
+
+    private void stubGetBySummonerNameCall_Server_Not_Found_Error(String summonerName) {
+        WireMock.stubFor(WireMock.get("/tft/summoner/v1/summoners/by-name/"+summonerName)
+                .willReturn(WireMock.aResponse().withStatus(404)
+                        .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                        .withBodyFile("getBySummonerName_response_404.json")));
     }
 }
