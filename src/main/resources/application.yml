@@ -10,7 +10,7 @@ com:
   fp:
     tft:
       downstream:
-        apiKey: RGAPI-092f686c-0b61-4db4-ad90-e5c61792daa8
+        apiKey: ${RIOT_API_KEY}
         summoner:
           base-uri: https://na1.api.riotgames.com/tft/summoner/v1/summoners/
           read-timeout: 5000
