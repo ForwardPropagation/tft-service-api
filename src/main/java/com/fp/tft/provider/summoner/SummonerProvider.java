@@ -1,5 +1,6 @@
 package com.fp.tft.provider.summoner;
 
+import com.fp.tft.exception.ResourceNotFoundException;
 import com.fp.tft.provider.TFTServiceConfig;
 import com.fp.tft.riot.api.SummonerV4SummonerDTO;
 import lombok.extern.slf4j.Slf4j;
@@ -38,6 +39,10 @@ public class SummonerProvider {
         } catch (RestClientResponseException e) {
             log.debug("Summoner Service Error with Status Code {} and Response: {}", e.getRawStatusCode(), e.getResponseBodyAsString());
             log.error("Error calling TFT Summoner Service with Status Code: {}", e.getRawStatusCode());
+
+            if (HttpStatus.NOT_FOUND.value() == e.getRawStatusCode())
+                throw new ResourceNotFoundException("Error calling TFT Summoner Service - Summoner not found!", e);
+
             throw new SummonerServiceException("Error calling TFT Summoner Service!", e);
         } catch (Exception e) {
             throw new SummonerServiceException("Something went wrong when calling TFT Summoner Service", e);
