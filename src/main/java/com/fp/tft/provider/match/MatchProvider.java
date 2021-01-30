@@ -1,6 +1,7 @@
 package com.fp.tft.provider.match;
 
 import com.fp.tft.exception.ResourceNotFoundException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.ParameterizedTypeReference;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class MatchProvider {
 
     public static final String BY_PUUID_PATH = "by-puuid";
@@ -24,11 +26,8 @@ public class MatchProvider {
 
     private static final int DEFAULT_COUNT = 10;
 
+    @Qualifier("MatchProvider")
     private final RestTemplate restTemplate;
-
-    public MatchProvider(@Qualifier("MatchProvider") RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
 
     public List<String> getMatchIdListByPuuid(String puuid, Integer count) {
         ResponseEntity<List<String>> response;

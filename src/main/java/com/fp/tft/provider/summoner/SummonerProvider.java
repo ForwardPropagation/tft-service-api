@@ -2,6 +2,7 @@ package com.fp.tft.provider.summoner;
 
 import com.fp.tft.exception.ResourceNotFoundException;
 import com.fp.tft.riot.api.SummonerV4SummonerDTO;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.*;
@@ -12,15 +13,13 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class SummonerProvider {
 
     public static final String BY_NAME_PATH = "by-name";
 
+    @Qualifier("SummonerProvider")
     private final RestTemplate restTemplate;
-
-    public SummonerProvider(@Qualifier("SummonerProvider") RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
 
     public SummonerV4SummonerDTO getSummonerByName(String summonerName) {
         ResponseEntity<SummonerV4SummonerDTO> response;
