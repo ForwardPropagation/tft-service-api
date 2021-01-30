@@ -15,6 +15,10 @@ com:
           base-uri: http://localhost:8889/tft/summoner/v1/summoners/
           read-timeout: 5000
           connect-timeout: 5000
+        match:
+          base-uri: http://localhost:8889/tft/match/v1/matches/
+          read-timeout: 5000
+          connect-timeout: 5000
 
 logging:
   level:
