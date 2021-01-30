@@ -15,7 +15,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Slf4j
 public class SummonerProvider {
 
-    public static String BY_NAME_PATH = "by-name";
+    public static final String BY_NAME_PATH = "by-name";
 
     private final RestTemplate restTemplate;
 
