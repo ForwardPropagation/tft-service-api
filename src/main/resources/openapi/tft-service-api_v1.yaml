@@ -13,23 +13,23 @@ externalDocs:
   description: Find out more about Swagger
   url: http://swagger.io
 servers:
-- url: https://example.swagger.io/v2
+  - url: https://example.swagger.io/v2
 tags:
-- name: summoner
-  description: Operations about summoner
+  - name: summoner
+    description: Operations about summoner
 paths:
   /summoner/{summonerName}:
     get:
       tags:
-      - summoner
+        - summoner
       summary: Get summoner by summoner name
       operationId: getSummonerByName
       parameters:
-      - name: summonerName
-        in: path
-        required: true
-        schema:
-          type: string
+        - name: summonerName
+          in: path
+          required: true
+          schema:
+            type: string
       responses:
         200:
           description: successful operation
@@ -39,19 +39,60 @@ paths:
                 $ref: '#/components/schemas/Summoner'
         400:
           description: Invalid request
-          content: 
+          content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServerError'
         404:
           description: User not found
-          content: 
+          content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServerError'
         500:
           description: Internal Server Error
-          content: 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+  /summoner/{summonerName}/matches:
+    get:
+      tags:
+        - summoner
+      summary: Get list of match ids by summoner name
+      operationId: getMatchesBySummonerName
+      parameters:
+        - name: summonerName
+          in: path
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: count
+          schema:
+            type: integer
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SummonerMatches'
+        400:
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+        404:
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+        500:
+          description: Internal Server Error
+          content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServerError'
@@ -77,10 +118,26 @@ components:
           description: Date summoner was last modified specified as epoch milliseconds
           type: integer
           format: int64
+    SummonerMatches:
+      type: object
+      properties:
+        summonerName:
+          description: Summoner Name
+          type: string
+        puuid:
+          description: Encrypted PUUID. Exact length of 78 characters.
+          type: string
+        matchCount:
+          description: Total match id retrieved from downstream
+          type: integer
+        matchIds:
+          type: array
+          items:
+            type: string
     ServerError:
       type: object
       properties:
         code:
-          type: int
+          type: integer
         message:
           type: string

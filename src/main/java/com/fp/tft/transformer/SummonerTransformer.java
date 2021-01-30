@@ -1,8 +1,11 @@
 package com.fp.tft.transformer;
 
 import com.fp.tft.api.models.Summoner;
+import com.fp.tft.api.models.SummonerMatches;
 import com.fp.tft.riot.api.SummonerV4SummonerDTO;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class SummonerTransformer {
@@ -14,6 +17,15 @@ public class SummonerTransformer {
                 .puuid(summonerDTO.getPuuid())
                 .summonerLevel(summonerDTO.getSummonerLevel())
                 .revisionDate(summonerDTO.getRevisionDate())
+                .build();
+    }
+
+    public SummonerMatches transformMatchListToSummonerMatches(SummonerV4SummonerDTO summonerDTO, List<String> matchIdList) {
+        return SummonerMatches.builder()
+                .summonerName(summonerDTO.getName())
+                .puuid(summonerDTO.getPuuid())
+                .matchCount(matchIdList.size())
+                .matchIds(matchIdList)
                 .build();
     }
 }
