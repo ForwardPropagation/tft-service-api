@@ -2,6 +2,7 @@ package com.fp.tft.exception.handler;
 
 import com.fp.tft.api.models.ServerError;
 import com.fp.tft.exception.ErrorCodes;
+import com.fp.tft.provider.match.MatchServiceException;
 import com.fp.tft.provider.summoner.SummonerServiceException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
@@ -25,6 +26,17 @@ public class TFTExceptionHandler {
     @ResponseBody
     public ServerError handleSummonerServiceException(final SummonerServiceException e) {
         log.error("Handling SummonerServiceException: ", e);
+        return ServerError.builder()
+                .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .message(ErrorCodes.TFT_SERVICE_ERROR.getResponseErrorCode())
+                .build();
+    }
+
+    @ExceptionHandler({ MatchServiceException.class })
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseBody
+    public ServerError handleMatchServiceException(final MatchServiceException e) {
+        log.error("Handling MatchServiceException: ", e);
         return ServerError.builder()
                 .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .message(ErrorCodes.TFT_SERVICE_ERROR.getResponseErrorCode())

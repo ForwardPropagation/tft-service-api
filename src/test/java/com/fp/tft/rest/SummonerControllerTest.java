@@ -1,6 +1,7 @@
 package com.fp.tft.rest;
 
 import com.fp.tft.api.models.Summoner;
+import com.fp.tft.api.models.SummonerMatches;
 import com.fp.tft.rest.SummonerController;
 import com.fp.tft.service.SummonerService;
 import org.junit.jupiter.api.Test;
@@ -42,5 +43,26 @@ class SummonerControllerTest {
         assertEquals(expectedResponse, res.getBody());
 
         verify(summonerService, times(1)).getSummonerByName(summonerName);
+    }
+
+    @Test
+    void testGetMatchesBySummonerName() {
+
+        // Arrange
+        String summonerName = "testUser";
+        Integer count = 10;
+        SummonerMatches expectedResponse = SummonerMatches.builder().build();
+
+        when(summonerService.getSummonerMatchesByName(summonerName, count)).thenReturn(expectedResponse);
+
+        // Act
+        ResponseEntity<SummonerMatches> res = objectToTest.getMatchesBySummonerName(summonerName, count);
+
+        // Assert
+        assertNotNull(res);
+        assertEquals(HttpStatus.OK, res.getStatusCode());
+        assertEquals(expectedResponse, res.getBody());
+
+        verify(summonerService, times(1)).getSummonerMatchesByName(summonerName, count);
     }
 }

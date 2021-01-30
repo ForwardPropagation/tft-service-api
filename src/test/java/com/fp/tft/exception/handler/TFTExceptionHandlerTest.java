@@ -2,6 +2,7 @@ package com.fp.tft.exception.handler;
 
 import com.fp.tft.api.models.ServerError;
 import com.fp.tft.exception.ErrorCodes;
+import com.fp.tft.provider.match.MatchServiceException;
 import com.fp.tft.provider.summoner.SummonerServiceException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,6 +29,22 @@ class TFTExceptionHandlerTest {
 
         // Act
         final ServerError response = objectToTest.handleSummonerServiceException(new SummonerServiceException("Error"));
+
+        // Assert
+        assertEquals(expectedResponseBody, response);
+    }
+
+    @Test
+    void handleMatchServiceException() {
+
+        // Arrange
+        final ServerError expectedResponseBody = ServerError.builder()
+                .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .message(ErrorCodes.TFT_SERVICE_ERROR.getResponseErrorCode())
+                .build();
+
+        // Act
+        final ServerError response = objectToTest.handleMatchServiceException(new MatchServiceException("Error"));
 
         // Assert
         assertEquals(expectedResponseBody, response);
