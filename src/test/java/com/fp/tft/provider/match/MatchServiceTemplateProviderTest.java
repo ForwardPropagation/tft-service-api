@@ -1,5 +1,6 @@
 package com.fp.tft.provider.match;
 
+import com.fp.tft.provider.TFTServiceConfig;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -19,6 +20,9 @@ class MatchServiceTemplateProviderTest {
     private RestTemplateBuilder restTemplateBuilder;
 
     @Mock
+    private TFTServiceConfig tftServiceConfig;
+
+    @Mock
     private MatchServiceConfig matchServiceConfig;
 
     @InjectMocks
@@ -28,6 +32,7 @@ class MatchServiceTemplateProviderTest {
     void getSummonerServiceRestTemplate() {
 
         // Arrange
+        when(tftServiceConfig.getApiKey()).thenReturn("key");
         when(matchServiceConfig.getBaseUri()).thenReturn("");
         when(matchServiceConfig.getReadTimeout()).thenReturn(1000);
         when(matchServiceConfig.getConnectTimeout()).thenReturn(1000);
@@ -39,6 +44,7 @@ class MatchServiceTemplateProviderTest {
         // Assert
         assertNotNull(res);
 
+        verify(tftServiceConfig, times(1)).getApiKey();
         verify(matchServiceConfig, times(1)).getBaseUri();
         verify(matchServiceConfig, times(1)).getReadTimeout();
         verify(matchServiceConfig, times(1)).getConnectTimeout();

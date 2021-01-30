@@ -1,7 +1,7 @@
 package com.fp.tft.provider.match;
 
 import com.fp.tft.exception.ResourceNotFoundException;
-import com.fp.tft.provider.TFTServiceConfig;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.ParameterizedTypeReference;
@@ -15,6 +15,7 @@ import java.util.List;
 
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class MatchProvider {
 
     public static final String BY_PUUID_PATH = "by-puuid";
@@ -25,14 +26,8 @@ public class MatchProvider {
 
     private static final int DEFAULT_COUNT = 10;
 
+    @Qualifier("MatchProvider")
     private final RestTemplate restTemplate;
-
-    private final TFTServiceConfig tftServiceConfig;
-
-    public MatchProvider(@Qualifier("MatchProvider") RestTemplate restTemplate, TFTServiceConfig tftServiceConfig) {
-        this.restTemplate = restTemplate;
-        this.tftServiceConfig = tftServiceConfig;
-    }
 
     public List<String> getMatchIdListByPuuid(String puuid, Integer count) {
         ResponseEntity<List<String>> response;
@@ -41,7 +36,7 @@ public class MatchProvider {
             response = restTemplate.exchange(
                     getMatchUrl(puuid, count),
                     HttpMethod.GET,
-                    new HttpEntity<>(getHttpHeaders()),
+                    null,
                     new ParameterizedTypeReference<List<String>>() {});
         } catch (RestClientResponseException e) {
             log.debug("Match Service Error with Status Code {} and Response: {}", e.getRawStatusCode(), e.getResponseBodyAsString());
@@ -65,12 +60,5 @@ public class MatchProvider {
                 .queryParam(COUNT_QUERY_PARAM, count != null ? count : DEFAULT_COUNT)
                 .build()
                 .toUriString();
-    }
-
-    private HttpHeaders getHttpHeaders() {
-        final HttpHeaders headers = new HttpHeaders();
-        headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-        headers.set(TFTServiceConfig.RIOT_API_KEY, tftServiceConfig.getApiKey());
-        return headers;
     }
 }

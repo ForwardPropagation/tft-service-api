@@ -1,15 +1,12 @@
 package com.fp.tft.provider.summoner;
 
 import com.fp.tft.exception.ResourceNotFoundException;
-import com.fp.tft.provider.TFTServiceConfig;
 import com.fp.tft.riot.api.SummonerV4SummonerDTO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
@@ -26,13 +23,8 @@ class SummonerProviderTest {
     @Mock
     private RestTemplate restTemplate;
 
-    @Mock
-    private TFTServiceConfig tftServiceConfig;
-
     @InjectMocks
     private SummonerProvider objectToTest;
-
-    private final static String APIKEY = "testKey";
 
     @Test
     void getSummonerByName() {
@@ -41,9 +33,8 @@ class SummonerProviderTest {
         String summonerName = "testSummoner";
         SummonerV4SummonerDTO expectedRes = new SummonerV4SummonerDTO();
 
-        when(tftServiceConfig.getApiKey()).thenReturn(APIKEY);
-        when(restTemplate.exchange(eq("/"+SummonerProvider.BY_NAME_PATH+"/"+summonerName), eq(HttpMethod.GET),
-                any(HttpEntity.class), eq(SummonerV4SummonerDTO.class))).thenReturn(ResponseEntity.ok(expectedRes));
+        when(restTemplate.getForEntity(eq("/"+SummonerProvider.BY_NAME_PATH+"/"+summonerName), eq(SummonerV4SummonerDTO.class)))
+                .thenReturn(ResponseEntity.ok(expectedRes));
 
         // Act
         SummonerV4SummonerDTO res = objectToTest.getSummonerByName(summonerName);
@@ -51,9 +42,7 @@ class SummonerProviderTest {
         // Assert
         assertEquals(expectedRes, res);
 
-        verify(tftServiceConfig, times(1)).getApiKey();
-        verify(restTemplate, times(1))
-                .exchange(anyString(), eq(HttpMethod.GET), any(HttpEntity.class), eq(SummonerV4SummonerDTO.class));
+        verify(restTemplate, times(1)).getForEntity(anyString(), eq(SummonerV4SummonerDTO.class));
     }
 
     @Test
@@ -62,21 +51,17 @@ class SummonerProviderTest {
         // Arrange
         String summonerName = "testSummoner";
 
-        when(tftServiceConfig.getApiKey()).thenReturn(APIKEY);
-
         RestClientResponseException exception = mock(RestClientResponseException.class);
         when(exception.getRawStatusCode()).thenReturn(500);
         when(exception.getResponseBodyAsString()).thenReturn("");
 
-        when(restTemplate.exchange(eq("/"+SummonerProvider.BY_NAME_PATH+"/"+summonerName), eq(HttpMethod.GET),
-                any(HttpEntity.class), eq(SummonerV4SummonerDTO.class))).thenThrow(exception);
+        when(restTemplate.getForEntity(eq("/"+SummonerProvider.BY_NAME_PATH+"/"+summonerName), eq(SummonerV4SummonerDTO.class)))
+                .thenThrow(exception);
 
         // Act & Assert
         assertThrows(SummonerServiceException.class, () -> objectToTest.getSummonerByName(summonerName));
 
-        verify(tftServiceConfig, times(1)).getApiKey();
-        verify(restTemplate, times(1))
-                .exchange(anyString(), eq(HttpMethod.GET), any(HttpEntity.class), eq(SummonerV4SummonerDTO.class));
+        verify(restTemplate, times(1)).getForEntity(anyString(), eq(SummonerV4SummonerDTO.class));
     }
 
     @Test
@@ -85,21 +70,17 @@ class SummonerProviderTest {
         // Arrange
         String summonerName = "testSummoner";
 
-        when(tftServiceConfig.getApiKey()).thenReturn(APIKEY);
-
         RestClientResponseException exception = mock(RestClientResponseException.class);
         when(exception.getRawStatusCode()).thenReturn(404);
         when(exception.getResponseBodyAsString()).thenReturn("");
 
-        when(restTemplate.exchange(eq("/"+SummonerProvider.BY_NAME_PATH+"/"+summonerName), eq(HttpMethod.GET),
-                any(HttpEntity.class), eq(SummonerV4SummonerDTO.class))).thenThrow(exception);
+        when(restTemplate.getForEntity(eq("/"+SummonerProvider.BY_NAME_PATH+"/"+summonerName), eq(SummonerV4SummonerDTO.class)))
+                .thenThrow(exception);
 
         // Act & Assert
         assertThrows(ResourceNotFoundException.class, () -> objectToTest.getSummonerByName(summonerName));
 
-        verify(tftServiceConfig, times(1)).getApiKey();
-        verify(restTemplate, times(1))
-                .exchange(anyString(), eq(HttpMethod.GET), any(HttpEntity.class), eq(SummonerV4SummonerDTO.class));
+        verify(restTemplate, times(1)).getForEntity(anyString(), eq(SummonerV4SummonerDTO.class));
     }
 
     @Test
@@ -107,13 +88,13 @@ class SummonerProviderTest {
 
         // Arrange
         String summonerName = "testSummoner";
-        when(tftServiceConfig.getApiKey()).thenThrow(new RuntimeException("Error"));
+
+        when(restTemplate.getForEntity(eq("/"+SummonerProvider.BY_NAME_PATH+"/"+summonerName), eq(SummonerV4SummonerDTO.class)))
+                .thenThrow(new RuntimeException());
 
         // Act & Assert
         assertThrows(SummonerServiceException.class, () -> objectToTest.getSummonerByName(summonerName));
 
-        verify(tftServiceConfig, times(1)).getApiKey();
-        verify(restTemplate, times(0))
-                .exchange(anyString(), eq(HttpMethod.GET), any(HttpEntity.class), eq(SummonerV4SummonerDTO.class));
+        verify(restTemplate, times(1)).getForEntity(anyString(), eq(SummonerV4SummonerDTO.class));
     }
 }
