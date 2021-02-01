@@ -20,10 +20,8 @@ public class SummonerTransformer {
                 .build();
     }
 
-    public SummonerMatches transformMatchListToSummonerMatches(SummonerV4SummonerDTO summonerDTO, List<String> matchIdList) {
+    public SummonerMatches transformMatchListToSummonerMatches(List<String> matchIdList) {
         return SummonerMatches.builder()
-                .summonerName(summonerDTO.getName())
-                .puuid(summonerDTO.getPuuid())
                 .matchCount(matchIdList.size())
                 .matchIds(matchIdList)
                 .build();

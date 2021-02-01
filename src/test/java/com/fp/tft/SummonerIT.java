@@ -43,7 +43,7 @@ public class SummonerIT {
         stubGetBySummonerNameCall(summonerName);
 
         // Act
-        final ResponseEntity<Summoner> response = testRestTemplate.exchange("/summoner/{summonerName}",
+        final ResponseEntity<Summoner> response = testRestTemplate.exchange("/summoner/by-name/{summonerName}",
                 HttpMethod.GET, new HttpEntity<>(httpHeaders), Summoner.class, summonerName);
 
         // Assert
@@ -53,6 +53,30 @@ public class SummonerIT {
 
         Summoner res = response.getBody();
         assertEquals(summonerName, res.getSummonerName());
+        assertEquals(31, res.getSummonerLevel());
+    }
+
+    @DisplayName("Test getSummonerByPuuid OK")
+    @Test
+    void getSummonerByPuuid() {
+
+        // Arrange
+        final HttpHeaders httpHeaders = new HttpHeaders();
+
+        String puuid = "rN6W0P66QrW1LEl2Ayykh4FFLeUhKaevDn8ew4VbjMfA6Bs_aZTT9xOkseJct7C3otRUgmWWJTbF3Q";
+        stubGetBySummonerPuuidCall(puuid);
+
+        // Act
+        final ResponseEntity<Summoner> response = testRestTemplate.exchange("/summoner/by-id/{puuid}",
+                HttpMethod.GET, new HttpEntity<>(httpHeaders), Summoner.class, puuid);
+
+        // Assert
+        assertNotNull(response);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+
+        Summoner res = response.getBody();
+        assertEquals(puuid, res.getPuuid());
         assertEquals(31, res.getSummonerLevel());
     }
 
@@ -67,7 +91,7 @@ public class SummonerIT {
         stubGetBySummonerNameCall_Server_Not_Found_Error(summonerName);
 
         // Act
-        final ResponseEntity<ServerError> response = testRestTemplate.exchange("/summoner/{summonerName}",
+        final ResponseEntity<ServerError> response = testRestTemplate.exchange("/summoner/by-name/{summonerName}",
                 HttpMethod.GET, new HttpEntity<>(httpHeaders), ServerError.class, summonerName);
 
         // Assert
@@ -91,7 +115,7 @@ public class SummonerIT {
         stubGetBySummonerNameCall_Server_Error(summonerName);
 
         // Act
-        final ResponseEntity<ServerError> response = testRestTemplate.exchange("/summoner/{summonerName}",
+        final ResponseEntity<ServerError> response = testRestTemplate.exchange("/summoner/by-name/{summonerName}",
                 HttpMethod.GET, new HttpEntity<>(httpHeaders), ServerError.class, summonerName);
 
         // Assert
@@ -117,7 +141,7 @@ public class SummonerIT {
         stubGetMatchIdListByPuuid(puuid, count);
 
         // Act
-        final ResponseEntity<SummonerMatches> response = testRestTemplate.exchange("/summoner/{summonerName}/matches?count={count}",
+        final ResponseEntity<SummonerMatches> response = testRestTemplate.exchange("/summoner/by-name/{summonerName}/matches?count={count}",
                 HttpMethod.GET, new HttpEntity<>(httpHeaders), SummonerMatches.class, summonerName, count);
 
         // Assert
@@ -126,8 +150,31 @@ public class SummonerIT {
         assertNotNull(response.getBody());
 
         SummonerMatches res = response.getBody();
-        assertEquals(summonerName, res.getSummonerName());
-        assertEquals(puuid, res.getPuuid());
+        assertEquals(4, res.getMatchCount());
+        assertNotNull(res.getMatchIds());
+        assertEquals(4, res.getMatchIds().size());
+    }
+
+    @DisplayName("Test getMatchesBySummonerPuuid OK")
+    @Test
+    void getMatchesBySummonerPuuid() {
+        // Arrange
+        final HttpHeaders httpHeaders = new HttpHeaders();
+
+        String puuid = "rN6W0P66QrW1LEl2Ayykh4FFLeUhKaevDn8ew4VbjMfA6Bs_aZTT9xOkseJct7C3otRUgmWWJTbF3Q";
+        Integer count = 5;
+        stubGetMatchIdListByPuuid(puuid, count);
+
+        // Act
+        final ResponseEntity<SummonerMatches> response = testRestTemplate.exchange("/summoner/by-id/{puuid}/matches?count={count}",
+                HttpMethod.GET, new HttpEntity<>(httpHeaders), SummonerMatches.class, puuid, count);
+
+        // Assert
+        assertNotNull(response);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+
+        SummonerMatches res = response.getBody();
         assertEquals(4, res.getMatchCount());
         assertNotNull(res.getMatchIds());
         assertEquals(4, res.getMatchIds().size());
@@ -146,7 +193,7 @@ public class SummonerIT {
         stubGetMatchIdListByPuuid_Server_Error(puuid, count);
 
         // Act
-        final ResponseEntity<ServerError> response = testRestTemplate.exchange("/summoner/{summonerName}/matches?count={count}",
+        final ResponseEntity<ServerError> response = testRestTemplate.exchange("/summoner/by-name/{summonerName}/matches?count={count}",
                 HttpMethod.GET, new HttpEntity<>(httpHeaders), ServerError.class, summonerName, count);
 
         // Assert
@@ -163,7 +210,14 @@ public class SummonerIT {
         WireMock.stubFor(WireMock.get("/tft/summoner/v1/summoners/by-name/"+summonerName)
                 .willReturn(WireMock.aResponse().withStatus(200)
                         .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                        .withBodyFile("getBySummonerName_response_200.json")));
+                        .withBodyFile("getBySummoner_response_200.json")));
+    }
+
+    private void stubGetBySummonerPuuidCall(String puuid) {
+        WireMock.stubFor(WireMock.get("/tft/summoner/v1/summoners/by-puuid/"+puuid)
+                .willReturn(WireMock.aResponse().withStatus(200)
+                        .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                        .withBodyFile("getBySummoner_response_200.json")));
     }
 
     private void stubGetBySummonerNameCall_Server_Error(String summonerName) {
@@ -175,7 +229,7 @@ public class SummonerIT {
         WireMock.stubFor(WireMock.get("/tft/summoner/v1/summoners/by-name/"+summonerName)
                 .willReturn(WireMock.aResponse().withStatus(404)
                         .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                        .withBodyFile("getBySummonerName_response_404.json")));
+                        .withBodyFile("getBySummoner_response_404.json")));
     }
 
     private void stubGetMatchIdListByPuuid(String puuid, Integer count) {

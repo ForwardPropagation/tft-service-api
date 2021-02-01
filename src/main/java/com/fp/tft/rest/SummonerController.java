@@ -22,7 +22,17 @@ public class SummonerController implements SummonerApi {
     }
 
     @Override
+    public ResponseEntity<Summoner> getSummonerByPuuid(String puuid) {
+        return ResponseEntity.ok(summonerService.getSummonerByPuuid(puuid));
+    }
+
+    @Override
     public ResponseEntity<SummonerMatches> getMatchesBySummonerName(String summonerName, @Valid Integer count) {
         return ResponseEntity.ok(summonerService.getSummonerMatchesByName(summonerName, count));
+    }
+
+    @Override
+    public ResponseEntity<SummonerMatches> getMatchesBySummonerPuuid(String puuid, @Valid Integer count) {
+        return ResponseEntity.ok(summonerService.getSummonerMatchesByPuuid(puuid, count));
     }
 }
