@@ -18,7 +18,7 @@ tags:
   - name: summoner
     description: Operations about summoner
 paths:
-  /summoner/{summonerName}:
+  /summoner/by-name/{summonerName}:
     get:
       tags:
         - summoner
@@ -55,7 +55,44 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServerError'
-  /summoner/{summonerName}/matches:
+  /summoner/by-id/{puuid}:
+    get:
+      tags:
+        - summoner
+      summary: Get summoner by summoner puuid
+      operationId: getSummonerByPuuid
+      parameters:
+        - name: puuid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Summoner'
+        400:
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+        404:
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+  /summoner/by-name/{summonerName}/matches:
     get:
       tags:
         - summoner
@@ -63,6 +100,47 @@ paths:
       operationId: getMatchesBySummonerName
       parameters:
         - name: summonerName
+          in: path
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: count
+          schema:
+            type: integer
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SummonerMatches'
+        400:
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+        404:
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerError'
+  /summoner/by-id/{puuid}/matches:
+    get:
+      tags:
+        - summoner
+      summary: Get list of match ids by summoner puuid
+      operationId: getMatchesBySummonerPuuid
+      parameters:
+        - name: puuid
           in: path
           required: true
           schema:

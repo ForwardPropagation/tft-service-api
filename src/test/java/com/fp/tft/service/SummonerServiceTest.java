@@ -62,6 +62,32 @@ class SummonerServiceTest {
     }
 
     @Test
+    void testGetSummonerByPuuid() {
+
+        // Arrange
+        String puuid = "summoner-123";
+        SummonerV4SummonerDTO summonerDTO = new SummonerV4SummonerDTO();
+        Summoner expectedResponse = Summoner.builder().summonerId("summoner-123").build();
+
+        when(summonerProvider.getSummonerByPuuid(puuid)).thenReturn(summonerDTO);
+        when(summonerTransformer.transformSummonerDtoToSummoner(summonerDTO)).thenReturn(expectedResponse);
+
+        InOrder inOrder = inOrder(summonerProvider, summonerTransformer);
+
+        // Act
+        Summoner res = objectToTest.getSummonerByPuuid(puuid);
+
+        // Assert
+        assertEquals(expectedResponse, res);
+
+        verify(summonerProvider, times(1)).getSummonerByPuuid(puuid);
+        verify(summonerTransformer, times(1)).transformSummonerDtoToSummoner(summonerDTO);
+
+        inOrder.verify(summonerProvider).getSummonerByPuuid(puuid);
+        inOrder.verify(summonerTransformer).transformSummonerDtoToSummoner(summonerDTO);
+    }
+
+    @Test
     void testGetSummonerMatchesByName() {
 
         // Arrange

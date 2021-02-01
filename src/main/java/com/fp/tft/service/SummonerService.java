@@ -23,6 +23,10 @@ public class SummonerService {
         return summonerTransformer.transformSummonerDtoToSummoner(summonerProvider.getSummonerByName(summonerName));
     }
 
+    public Summoner getSummonerByPuuid(String puuid) {
+        return summonerTransformer.transformSummonerDtoToSummoner(summonerProvider.getSummonerByPuuid(puuid));
+    }
+
     public SummonerMatches getSummonerMatchesByName(String summonerName, Integer count) {
         SummonerV4SummonerDTO summonerDTO = summonerProvider.getSummonerByName(summonerName);
         return summonerTransformer.transformMatchListToSummonerMatches(summonerDTO,

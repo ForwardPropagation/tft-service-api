@@ -46,6 +46,25 @@ class SummonerProviderTest {
     }
 
     @Test
+    void getSummonerByPuuid() {
+
+        // Arrange
+        String puuid = "summoner-123";
+        SummonerV4SummonerDTO expectedRes = new SummonerV4SummonerDTO();
+
+        when(restTemplate.getForEntity(eq("/"+SummonerProvider.BY_PUUID_PATH+"/"+puuid), eq(SummonerV4SummonerDTO.class)))
+                .thenReturn(ResponseEntity.ok(expectedRes));
+
+        // Act
+        SummonerV4SummonerDTO res = objectToTest.getSummonerByPuuid(puuid);
+
+        // Assert
+        assertEquals(expectedRes, res);
+
+        verify(restTemplate, times(1)).getForEntity(anyString(), eq(SummonerV4SummonerDTO.class));
+    }
+
+    @Test
     void getSummonerByName_Downstream_Exception() {
 
         // Arrange
