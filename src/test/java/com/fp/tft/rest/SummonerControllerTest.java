@@ -84,4 +84,25 @@ class SummonerControllerTest {
 
         verify(summonerService, times(1)).getSummonerMatchesByName(summonerName, count);
     }
+
+    @Test
+    void testGetMatchesBySummonerPuuid() {
+
+        // Arrange
+        String puuid = "summoner-123";
+        Integer count = 10;
+        SummonerMatches expectedResponse = SummonerMatches.builder().build();
+
+        when(summonerService.getSummonerMatchesByPuuid(puuid, count)).thenReturn(expectedResponse);
+
+        // Act
+        ResponseEntity<SummonerMatches> res = objectToTest.getMatchesBySummonerPuuid(puuid, count);
+
+        // Assert
+        assertNotNull(res);
+        assertEquals(HttpStatus.OK, res.getStatusCode());
+        assertEquals(expectedResponse, res.getBody());
+
+        verify(summonerService, times(1)).getSummonerMatchesByPuuid(puuid, count);
+    }
 }

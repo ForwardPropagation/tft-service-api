@@ -101,7 +101,7 @@ class SummonerServiceTest {
 
         when(summonerProvider.getSummonerByName(summonerName)).thenReturn(summonerDTO);
         when(matchProvider.getMatchIdListByPuuid(summonerDTO.getPuuid(), count)).thenReturn(matchIdList);
-        when(summonerTransformer.transformMatchListToSummonerMatches(summonerDTO, matchIdList)).thenReturn(expectedResponse);
+        when(summonerTransformer.transformMatchListToSummonerMatches(matchIdList)).thenReturn(expectedResponse);
 
         InOrder inOrder = inOrder(summonerProvider, matchProvider, summonerTransformer);
 
@@ -113,10 +113,39 @@ class SummonerServiceTest {
 
         verify(summonerProvider, times(1)).getSummonerByName(summonerName);
         verify(matchProvider, times(1)).getMatchIdListByPuuid(summonerDTO.getPuuid(), count);
-        verify(summonerTransformer, times(1)).transformMatchListToSummonerMatches(summonerDTO, matchIdList);
+        verify(summonerTransformer, times(1)).transformMatchListToSummonerMatches(matchIdList);
 
         inOrder.verify(summonerProvider).getSummonerByName(summonerName);
         inOrder.verify(matchProvider).getMatchIdListByPuuid(summonerDTO.getPuuid(), count);
-        inOrder.verify(summonerTransformer).transformMatchListToSummonerMatches(summonerDTO, matchIdList);
+        inOrder.verify(summonerTransformer).transformMatchListToSummonerMatches(matchIdList);
+    }
+
+    @Test
+    void testGetSummonerMatchesByPuuid() {
+
+        // Arrange
+        String puuid = "summoner-123";
+        Integer count = 5;
+
+        List<String> matchIdList = Collections.emptyList();
+        SummonerMatches expectedResponse = SummonerMatches.builder().build();
+
+        when(matchProvider.getMatchIdListByPuuid(puuid, count)).thenReturn(matchIdList);
+        when(summonerTransformer.transformMatchListToSummonerMatches(matchIdList)).thenReturn(expectedResponse);
+
+        InOrder inOrder = inOrder(matchProvider, summonerTransformer);
+
+        // Act
+        SummonerMatches res = objectToTest.getSummonerMatchesByPuuid(puuid, count);
+
+        // Assert
+        assertEquals(expectedResponse, res);
+
+        verify(summonerProvider, times(0)).getSummonerByName(anyString());
+        verify(matchProvider, times(1)).getMatchIdListByPuuid(puuid, count);
+        verify(summonerTransformer, times(1)).transformMatchListToSummonerMatches(matchIdList);
+
+        inOrder.verify(matchProvider).getMatchIdListByPuuid(puuid, count);
+        inOrder.verify(summonerTransformer).transformMatchListToSummonerMatches(matchIdList);
     }
 }

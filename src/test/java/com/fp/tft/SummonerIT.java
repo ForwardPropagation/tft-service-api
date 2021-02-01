@@ -150,8 +150,31 @@ public class SummonerIT {
         assertNotNull(response.getBody());
 
         SummonerMatches res = response.getBody();
-        assertEquals(summonerName, res.getSummonerName());
-        assertEquals(puuid, res.getPuuid());
+        assertEquals(4, res.getMatchCount());
+        assertNotNull(res.getMatchIds());
+        assertEquals(4, res.getMatchIds().size());
+    }
+
+    @DisplayName("Test getMatchesBySummonerPuuid OK")
+    @Test
+    void getMatchesBySummonerPuuid() {
+        // Arrange
+        final HttpHeaders httpHeaders = new HttpHeaders();
+
+        String puuid = "rN6W0P66QrW1LEl2Ayykh4FFLeUhKaevDn8ew4VbjMfA6Bs_aZTT9xOkseJct7C3otRUgmWWJTbF3Q";
+        Integer count = 5;
+        stubGetMatchIdListByPuuid(puuid, count);
+
+        // Act
+        final ResponseEntity<SummonerMatches> response = testRestTemplate.exchange("/summoner/by-id/{puuid}/matches?count={count}",
+                HttpMethod.GET, new HttpEntity<>(httpHeaders), SummonerMatches.class, puuid, count);
+
+        // Assert
+        assertNotNull(response);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+
+        SummonerMatches res = response.getBody();
         assertEquals(4, res.getMatchCount());
         assertNotNull(res.getMatchIds());
         assertEquals(4, res.getMatchIds().size());

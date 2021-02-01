@@ -33,6 +33,6 @@ public class SummonerController implements SummonerApi {
 
     @Override
     public ResponseEntity<SummonerMatches> getMatchesBySummonerPuuid(String puuid, @Valid Integer count) {
-        return null;
+        return ResponseEntity.ok(summonerService.getSummonerMatchesByPuuid(puuid, count));
     }
 }
