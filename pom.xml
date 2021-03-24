@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.3.7.RELEASE</version>
+		<version>2.3.9.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.fp</groupId>
@@ -18,13 +18,23 @@
 		<java.version>1.8</java.version>
 
 		<!-- Dependency Versions -->
+		<org.projectlombok.version>1.18.18</org.projectlombok.version>
+		<mvn-pmd-plugin.version>3.14.0</mvn-pmd-plugin.version>
+
+		<!-- Code Gen Versions -->
+		<openapi-generator-maven-plugin.version>4.3.1</openapi-generator-maven-plugin.version>
 		<swagger-annotations.version>1.6.2</swagger-annotations.version>
-		<org.projectlombok.version>1.18.16</org.projectlombok.version>
+		<hibernate-validator.version>6.1.5.Final</hibernate-validator.version>
+		<validation-api.version>2.0.1.Final</validation-api.version>
+		<jackson-databind-nullable.version>0.2.1</jackson-databind-nullable.version>
+		<javax.servlet-api.version>4.0.1</javax.servlet-api.version>
+		<jsr305.version>3.0.2</jsr305.version>
+
+		<!-- Test Versions -->
+		<junit-jupiter-engine.version>5.6.2</junit-jupiter-engine.version>
 		<jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version>
 		<wiremock-jre8.version>2.27.2</wiremock-jre8.version>
 
-		<!-- Plugin Configuration -->
-		<openapi-generator-maven-plugin.version>4.3.1</openapi-generator-maven-plugin.version>
 	</properties>
 
 	<dependencies>
@@ -60,27 +70,27 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
-			<version>6.1.5.Final</version>
+			<version>${hibernate-validator.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
-			<version>2.0.1.Final</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.code.findbugs</groupId>
-			<artifactId>jsr305</artifactId>
-			<version>3.0.2</version>
+			<version>${validation-api.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.openapitools</groupId>
 			<artifactId>jackson-databind-nullable</artifactId>
-			<version>0.2.1</version>
+			<version>${jackson-databind-nullable.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.findbugs</groupId>
+			<artifactId>jsr305</artifactId>
+			<version>${jsr305.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
-			<version>4.0.1</version>
+			<version>${javax.servlet-api.version}</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -98,12 +108,7 @@
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-engine</artifactId>
-			<version>5.6.2</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>io.projectreactor</groupId>
-			<artifactId>reactor-test</artifactId>
+			<version>${junit-jupiter-engine.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -239,7 +244,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
-				<version>3.13.0</version>
+				<version>${mvn-pmd-plugin.version}</version>
 				<executions>
 					<execution>
 						<id>pmd</id>
