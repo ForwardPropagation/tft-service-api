@@ -22,16 +22,15 @@
 		<mvn-pmd-plugin.version>3.14.0</mvn-pmd-plugin.version>
 
 		<!-- Code Gen Versions -->
-		<openapi-generator-maven-plugin.version>4.3.1</openapi-generator-maven-plugin.version>
-		<swagger-annotations.version>1.6.2</swagger-annotations.version>
+		<openapi-generator-maven-plugin.version>5.1.0</openapi-generator-maven-plugin.version>
+		<springfox.version>3.0.0</springfox.version>
 		<jackson-databind-nullable.version>0.2.1</jackson-databind-nullable.version>
-		<javax.servlet-api.version>4.0.1</javax.servlet-api.version>
 		<jsr305.version>3.0.2</jsr305.version>
 
 		<!-- Test Versions -->
 		<junit-jupiter-engine.version>5.6.2</junit-jupiter-engine.version>
 		<jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version>
-		<wiremock-jre8.version>2.27.2</wiremock-jre8.version>
+		<wiremock.version>2.27.2</wiremock.version>
 	</properties>
 
 	<dependencies>
@@ -64,9 +63,9 @@
 
 		<!-- Code Gen Dependencies -->
 		<dependency>
-			<groupId>io.swagger</groupId>
-			<artifactId>swagger-annotations</artifactId>
-			<version>${swagger-annotations.version}</version>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>${springfox.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.openapitools</groupId>
@@ -77,12 +76,6 @@
 			<groupId>com.google.code.findbugs</groupId>
 			<artifactId>jsr305</artifactId>
 			<version>${jsr305.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>${javax.servlet-api.version}</version>
-			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
@@ -104,8 +97,8 @@
 		</dependency>
 		<dependency>
 			<groupId>com.github.tomakehurst</groupId>
-			<artifactId>wiremock-jre8</artifactId>
-			<version>${wiremock-jre8.version}</version>
+			<artifactId>wiremock</artifactId>
+			<version>${wiremock.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
