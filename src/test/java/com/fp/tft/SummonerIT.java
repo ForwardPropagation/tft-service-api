@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @SpringBootTest(classes = {Application.class}, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith({SpringExtension.class, WiremockTestExtension.class})
 @ActiveProfiles("integration")
-public class SummonerIT {
+class SummonerIT {
 
     @Autowired
     private TestRestTemplate testRestTemplate;
