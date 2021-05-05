@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.3.9.RELEASE</version>
+		<version>2.3.10.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.fp</groupId>
@@ -18,14 +18,12 @@
 		<java.version>1.8</java.version>
 
 		<!-- Dependency Versions -->
-		<org.projectlombok.version>1.18.18</org.projectlombok.version>
+		<org.projectlombok.version>1.18.20</org.projectlombok.version>
 		<mvn-pmd-plugin.version>3.14.0</mvn-pmd-plugin.version>
 
 		<!-- Code Gen Versions -->
 		<openapi-generator-maven-plugin.version>4.3.1</openapi-generator-maven-plugin.version>
 		<swagger-annotations.version>1.6.2</swagger-annotations.version>
-		<hibernate-validator.version>6.1.5.Final</hibernate-validator.version>
-		<validation-api.version>2.0.1.Final</validation-api.version>
 		<jackson-databind-nullable.version>0.2.1</jackson-databind-nullable.version>
 		<javax.servlet-api.version>4.0.1</javax.servlet-api.version>
 		<jsr305.version>3.0.2</jsr305.version>
@@ -34,10 +32,13 @@
 		<junit-jupiter-engine.version>5.6.2</junit-jupiter-engine.version>
 		<jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version>
 		<wiremock-jre8.version>2.27.2</wiremock-jre8.version>
-
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
@@ -66,16 +67,6 @@
 			<groupId>io.swagger</groupId>
 			<artifactId>swagger-annotations</artifactId>
 			<version>${swagger-annotations.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-validator</artifactId>
-			<version>${hibernate-validator.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>javax.validation</groupId>
-			<artifactId>validation-api</artifactId>
-			<version>${validation-api.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.openapitools</groupId>
