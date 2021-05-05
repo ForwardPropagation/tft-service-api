@@ -8,7 +8,7 @@ import org.mapstruct.Mapping;
 
 import java.util.List;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface SummonerMapper {
 
     @Mapping(target = "summonerId", source = "id")
@@ -16,7 +16,7 @@ public interface SummonerMapper {
     Summoner mapSummonerDtoToSummoner(SummonerV4SummonerDTO summonerDTO);
 
     default SummonerMatches mapMatchListToSummonerMatches(List<String> matchIdList) {
-        return mapMatchListToSummonerMatches(matchIdList.size(), matchIdList);
+        return mapMatchListToSummonerMatches(matchIdList == null ? null : matchIdList.size(), matchIdList);
     }
 
     SummonerMatches mapMatchListToSummonerMatches(Integer matchCount, List<String> matchIds);
