@@ -1,5 +1,8 @@
-server:
-  port: 8080
+logging:
+  level:
+    root: INFO
+    com.fp.tft: INFO
+    org.apache.http.wire: INFO
 
 spring:
   jackson:
@@ -19,9 +22,3 @@ com:
           base-uri: http://localhost:8889/tft/match/v1/matches/
           read-timeout: 5000
           connect-timeout: 5000
-
-logging:
-  level:
-    root: INFO
-    com.fp.tft: DEBUG
-    org.apache.http.wire: DEBUG

@@ -1,6 +1,12 @@
 server:
   port: 8080
 
+logging:
+  level:
+    root: INFO
+    com.fp.tft: INFO
+    org.apache.http.wire: INFO
+
 spring:
   jackson:
     serialization:
@@ -19,9 +25,3 @@ com:
           base-uri: https://americas.api.riotgames.com/tft/match/v1/matches/
           read-timeout: 5000
           connect-timeout: 5000
-
-logging:
-  level:
-    root: INFO
-    com.fp.tft: INFO
-    org.apache.http.wire: INFO
