@@ -8,7 +8,6 @@ import com.fp.tft.provider.summoner.SummonerProvider;
 import com.fp.tft.riot.api.SummonerV4SummonerDTO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -39,17 +38,17 @@ class SummonerServiceTest {
     void testGetSummonerByName() {
 
         // Arrange
-        String summonerName = "summonerName";
-        SummonerV4SummonerDTO summonerDTO = new SummonerV4SummonerDTO();
-        Summoner expectedResponse = Summoner.builder().summonerId("summoner-123").build();
+        var summonerName = "summonerName";
+        var summonerDTO = new SummonerV4SummonerDTO();
+        var expectedResponse = Summoner.builder().summonerId("summoner-123").build();
 
         when(summonerProvider.getSummonerByName(summonerName)).thenReturn(summonerDTO);
         when(summonerMapper.mapSummonerDtoToSummoner(summonerDTO)).thenReturn(expectedResponse);
 
-        InOrder inOrder = inOrder(summonerProvider, summonerMapper);
+        var inOrder = inOrder(summonerProvider, summonerMapper);
 
         // Act
-        Summoner res = objectToTest.getSummonerByName(summonerName);
+        var res = objectToTest.getSummonerByName(summonerName);
 
         // Assert
         assertEquals(expectedResponse, res);
@@ -65,17 +64,17 @@ class SummonerServiceTest {
     void testGetSummonerByPuuid() {
 
         // Arrange
-        String puuid = "summoner-123";
-        SummonerV4SummonerDTO summonerDTO = new SummonerV4SummonerDTO();
-        Summoner expectedResponse = Summoner.builder().summonerId("summoner-123").build();
+        var puuid = "summoner-123";
+        var summonerDTO = new SummonerV4SummonerDTO();
+        var expectedResponse = Summoner.builder().summonerId("summoner-123").build();
 
         when(summonerProvider.getSummonerByPuuid(puuid)).thenReturn(summonerDTO);
         when(summonerMapper.mapSummonerDtoToSummoner(summonerDTO)).thenReturn(expectedResponse);
 
-        InOrder inOrder = inOrder(summonerProvider, summonerMapper);
+        var inOrder = inOrder(summonerProvider, summonerMapper);
 
         // Act
-        Summoner res = objectToTest.getSummonerByPuuid(puuid);
+        var res = objectToTest.getSummonerByPuuid(puuid);
 
         // Assert
         assertEquals(expectedResponse, res);
@@ -91,22 +90,22 @@ class SummonerServiceTest {
     void testGetSummonerMatchesByName() {
 
         // Arrange
-        String summonerName = "summonerName";
-        Integer count = 5;
+        var summonerName = "summonerName";
+        var count = 5;
 
-        SummonerV4SummonerDTO summonerDTO = new SummonerV4SummonerDTO()
+        var summonerDTO = new SummonerV4SummonerDTO()
                 .puuid("123553456345");
         List<String> matchIdList = Collections.emptyList();
-        SummonerMatches expectedResponse = SummonerMatches.builder().build();
+        var expectedResponse = SummonerMatches.builder().build();
 
         when(summonerProvider.getSummonerByName(summonerName)).thenReturn(summonerDTO);
         when(matchProvider.getMatchIdListByPuuid(summonerDTO.getPuuid(), count)).thenReturn(matchIdList);
         when(summonerMapper.mapMatchListToSummonerMatches(matchIdList)).thenReturn(expectedResponse);
 
-        InOrder inOrder = inOrder(summonerProvider, matchProvider, summonerMapper);
+        var inOrder = inOrder(summonerProvider, matchProvider, summonerMapper);
 
         // Act
-        SummonerMatches res = objectToTest.getSummonerMatchesByName(summonerName, count);
+        var res = objectToTest.getSummonerMatchesByName(summonerName, count);
 
         // Assert
         assertEquals(expectedResponse, res);
@@ -124,19 +123,19 @@ class SummonerServiceTest {
     void testGetSummonerMatchesByPuuid() {
 
         // Arrange
-        String puuid = "summoner-123";
-        Integer count = 5;
+        var puuid = "summoner-123";
+        var count = 5;
 
         List<String> matchIdList = Collections.emptyList();
-        SummonerMatches expectedResponse = SummonerMatches.builder().build();
+        var expectedResponse = SummonerMatches.builder().build();
 
         when(matchProvider.getMatchIdListByPuuid(puuid, count)).thenReturn(matchIdList);
         when(summonerMapper.mapMatchListToSummonerMatches(matchIdList)).thenReturn(expectedResponse);
 
-        InOrder inOrder = inOrder(matchProvider, summonerMapper);
+        var inOrder = inOrder(matchProvider, summonerMapper);
 
         // Act
-        SummonerMatches res = objectToTest.getSummonerMatchesByPuuid(puuid, count);
+        var res = objectToTest.getSummonerMatchesByPuuid(puuid, count);
 
         // Assert
         assertEquals(expectedResponse, res);

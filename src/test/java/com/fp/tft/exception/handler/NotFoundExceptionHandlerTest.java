@@ -21,13 +21,13 @@ class NotFoundExceptionHandlerTest {
     void handleResourceNotFoundException() {
 
         // Arrange
-        final ServerError expectedResponseBody = ServerError.builder()
+        var expectedResponseBody = ServerError.builder()
                 .code(HttpStatus.NOT_FOUND.value())
                 .message(ErrorCodes.NOT_FOUND.getResponseErrorCode())
                 .build();
 
         // Act
-        final ServerError response = objectToTest.handleResourceNotFoundException(new ResourceNotFoundException("Error"));
+        var response = objectToTest.handleResourceNotFoundException(new ResourceNotFoundException("Error"));
 
         // Assert
         assertEquals(expectedResponseBody, response);

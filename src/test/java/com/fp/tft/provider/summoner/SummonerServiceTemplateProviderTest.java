@@ -7,7 +7,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.web.client.RestTemplate;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -39,7 +38,7 @@ class SummonerServiceTemplateProviderTest {
         when(restTemplateBuilder.uriTemplateHandler(any())).thenReturn(new RestTemplateBuilder());
 
         // Act
-        RestTemplate res = objectToTest.getSummonerServiceRestTemplate();
+        var res = objectToTest.getSummonerServiceRestTemplate();
 
         // Assert
         assertNotNull(res);

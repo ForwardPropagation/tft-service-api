@@ -35,15 +35,15 @@ class MatchProviderTest {
     void getMatchIdListByPuuid() {
 
         // Arrange
-        String puuid = "lLsFGUayoAmkT4Vug6X9jqt8_gF05Iuhc8rsYlu1QLHRZyExXvJqybBXIUWzeZXm8TJPVMM7w1BdQQ";
-        Integer count = 100;
+        var puuid = "lLsFGUayoAmkT4Vug6X9jqt8_gF05Iuhc8rsYlu1QLHRZyExXvJqybBXIUWzeZXm8TJPVMM7w1BdQQ";
+        var count = 100;
         List<String> expectedRes = new ArrayList<>();
 
         when(restTemplate.exchange(eq("/"+MatchProvider.BY_PUUID_PATH+"/"+puuid+"/"+MatchProvider.ID_PATH+"?"+MatchProvider.COUNT_QUERY_PARAM+"="+count),
                 eq(HttpMethod.GET), any(), any(ParameterizedTypeReference.class))).thenReturn(ResponseEntity.ok(expectedRes));
 
         // Act
-        List<String> res = objectToTest.getMatchIdListByPuuid(puuid, count);
+        var res = objectToTest.getMatchIdListByPuuid(puuid, count);
 
         // Assert
         assertEquals(expectedRes, res);
@@ -56,14 +56,14 @@ class MatchProviderTest {
     void getMatchIdListByPuuid_Null_Count() {
 
         // Arrange
-        String puuid = "lLsFGUayoAmkT4Vug6X9jqt8_gF05Iuhc8rsYlu1QLHRZyExXvJqybBXIUWzeZXm8TJPVMM7w1BdQQ";
+        var puuid = "lLsFGUayoAmkT4Vug6X9jqt8_gF05Iuhc8rsYlu1QLHRZyExXvJqybBXIUWzeZXm8TJPVMM7w1BdQQ";
         List<String> expectedRes = new ArrayList<>();
 
         when(restTemplate.exchange(eq("/"+MatchProvider.BY_PUUID_PATH+"/"+puuid+"/"+MatchProvider.ID_PATH+"?"+MatchProvider.COUNT_QUERY_PARAM+"=10"),
                 eq(HttpMethod.GET), any(), any(ParameterizedTypeReference.class))).thenReturn(ResponseEntity.ok(expectedRes));
 
         // Act
-        List<String> res = objectToTest.getMatchIdListByPuuid(puuid, null);
+        var res = objectToTest.getMatchIdListByPuuid(puuid, null);
 
         // Assert
         assertEquals(expectedRes, res);
@@ -76,10 +76,10 @@ class MatchProviderTest {
     void getMatchIdListByPuuid_Downstream_Exception() {
 
         // Arrange
-        String puuid = "lLsFGUayoAmkT4Vug6X9jqt8_gF05Iuhc8rsYlu1QLHRZyExXvJqybBXIUWzeZXm8TJPVMM7w1BdQQ";
-        Integer count = 100;
+        var puuid = "lLsFGUayoAmkT4Vug6X9jqt8_gF05Iuhc8rsYlu1QLHRZyExXvJqybBXIUWzeZXm8TJPVMM7w1BdQQ";
+        var count = 100;
 
-        RestClientResponseException exception = mock(RestClientResponseException.class);
+        var exception = mock(RestClientResponseException.class);
         when(exception.getRawStatusCode()).thenReturn(500);
         when(exception.getResponseBodyAsString()).thenReturn("");
 
@@ -97,10 +97,10 @@ class MatchProviderTest {
     void getMatchIdListByPuuid_Downstream_Not_Found_Exception() {
 
         // Arrange
-        String puuid = "lLsFGUayoAmkT4Vug6X9jqt8_gF05Iuhc8rsYlu1QLHRZyExXvJqybBXIUWzeZXm8TJPVMM7w1BdQQ";
-        Integer count = 100;
+        var puuid = "lLsFGUayoAmkT4Vug6X9jqt8_gF05Iuhc8rsYlu1QLHRZyExXvJqybBXIUWzeZXm8TJPVMM7w1BdQQ";
+        var count = 100;
 
-        RestClientResponseException exception = mock(RestClientResponseException.class);
+        var exception = mock(RestClientResponseException.class);
         when(exception.getRawStatusCode()).thenReturn(404);
         when(exception.getResponseBodyAsString()).thenReturn("");
 
@@ -118,8 +118,8 @@ class MatchProviderTest {
     void getMatchIdListByPuuid_Exception() {
 
         // Arrange
-        String puuid = "lLsFGUayoAmkT4Vug6X9jqt8_gF05Iuhc8rsYlu1QLHRZyExXvJqybBXIUWzeZXm8TJPVMM7w1BdQQ";
-        Integer count = 100;
+        var puuid = "lLsFGUayoAmkT4Vug6X9jqt8_gF05Iuhc8rsYlu1QLHRZyExXvJqybBXIUWzeZXm8TJPVMM7w1BdQQ";
+        var count = 100;
 
         when(restTemplate.exchange(eq("/"+MatchProvider.BY_PUUID_PATH+"/"+puuid+"/"+MatchProvider.ID_PATH+"?"+MatchProvider.COUNT_QUERY_PARAM+"="+count),
                 eq(HttpMethod.GET), any(), any(ParameterizedTypeReference.class))).thenThrow(new RuntimeException());

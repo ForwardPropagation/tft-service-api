@@ -30,14 +30,14 @@ class SummonerProviderTest {
     void getSummonerByName() {
 
         // Arrange
-        String summonerName = "testSummoner";
-        SummonerV4SummonerDTO expectedRes = new SummonerV4SummonerDTO();
+        var summonerName = "testSummoner";
+        var expectedRes = new SummonerV4SummonerDTO();
 
         when(restTemplate.getForEntity(eq("/"+SummonerProvider.BY_NAME_PATH+"/"+summonerName), eq(SummonerV4SummonerDTO.class)))
                 .thenReturn(ResponseEntity.ok(expectedRes));
 
         // Act
-        SummonerV4SummonerDTO res = objectToTest.getSummonerByName(summonerName);
+        var res = objectToTest.getSummonerByName(summonerName);
 
         // Assert
         assertEquals(expectedRes, res);
@@ -49,14 +49,14 @@ class SummonerProviderTest {
     void getSummonerByPuuid() {
 
         // Arrange
-        String puuid = "summoner-123";
-        SummonerV4SummonerDTO expectedRes = new SummonerV4SummonerDTO();
+        var puuid = "summoner-123";
+        var expectedRes = new SummonerV4SummonerDTO();
 
         when(restTemplate.getForEntity(eq("/"+SummonerProvider.BY_PUUID_PATH+"/"+puuid), eq(SummonerV4SummonerDTO.class)))
                 .thenReturn(ResponseEntity.ok(expectedRes));
 
         // Act
-        SummonerV4SummonerDTO res = objectToTest.getSummonerByPuuid(puuid);
+        var res = objectToTest.getSummonerByPuuid(puuid);
 
         // Assert
         assertEquals(expectedRes, res);
@@ -68,9 +68,9 @@ class SummonerProviderTest {
     void getSummonerByName_Downstream_Exception() {
 
         // Arrange
-        String summonerName = "testSummoner";
+        var summonerName = "testSummoner";
 
-        RestClientResponseException exception = mock(RestClientResponseException.class);
+        var exception = mock(RestClientResponseException.class);
         when(exception.getRawStatusCode()).thenReturn(500);
         when(exception.getResponseBodyAsString()).thenReturn("");
 
@@ -87,9 +87,9 @@ class SummonerProviderTest {
     void getSummonerByName_Downstream_Not_Found_Exception() {
 
         // Arrange
-        String summonerName = "testSummoner";
+        var summonerName = "testSummoner";
 
-        RestClientResponseException exception = mock(RestClientResponseException.class);
+        var exception = mock(RestClientResponseException.class);
         when(exception.getRawStatusCode()).thenReturn(404);
         when(exception.getResponseBodyAsString()).thenReturn("");
 
@@ -106,7 +106,7 @@ class SummonerProviderTest {
     void getSummonerByName_Exception() {
 
         // Arrange
-        String summonerName = "testSummoner";
+        var summonerName = "testSummoner";
 
         when(restTemplate.getForEntity(eq("/"+SummonerProvider.BY_NAME_PATH+"/"+summonerName), eq(SummonerV4SummonerDTO.class)))
                 .thenThrow(new RuntimeException());

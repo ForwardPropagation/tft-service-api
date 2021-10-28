@@ -9,7 +9,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -28,13 +27,13 @@ class SummonerControllerTest {
     void testGetSummonerByName() {
 
         // Arrange
-        String summonerName = "testUser";
-        Summoner expectedResponse = Summoner.builder().summonerId("summoner-123").build();
+        var summonerName = "testUser";
+        var expectedResponse = Summoner.builder().summonerId("summoner-123").build();
 
         when(summonerService.getSummonerByName(summonerName)).thenReturn(expectedResponse);
 
         // Act
-        ResponseEntity<Summoner> res = objectToTest.getSummonerByName(summonerName);
+        var res = objectToTest.getSummonerByName(summonerName);
 
         // Assert
         assertNotNull(res);
@@ -48,13 +47,13 @@ class SummonerControllerTest {
     void testGetSummonerByPuuid() {
 
         // Arrange
-        String puuid = "summoner-123";
-        Summoner expectedResponse = Summoner.builder().summonerId("summoner-123").build();
+        var puuid = "summoner-123";
+        var expectedResponse = Summoner.builder().summonerId("summoner-123").build();
 
         when(summonerService.getSummonerByPuuid(puuid)).thenReturn(expectedResponse);
 
         // Act
-        ResponseEntity<Summoner> res = objectToTest.getSummonerByPuuid(puuid);
+        var res = objectToTest.getSummonerByPuuid(puuid);
 
         // Assert
         assertNotNull(res);
@@ -68,14 +67,14 @@ class SummonerControllerTest {
     void testGetMatchesBySummonerName() {
 
         // Arrange
-        String summonerName = "testUser";
-        Integer count = 10;
-        SummonerMatches expectedResponse = SummonerMatches.builder().build();
+        var summonerName = "testUser";
+        var count = 10;
+        var expectedResponse = SummonerMatches.builder().build();
 
         when(summonerService.getSummonerMatchesByName(summonerName, count)).thenReturn(expectedResponse);
 
         // Act
-        ResponseEntity<SummonerMatches> res = objectToTest.getMatchesBySummonerName(summonerName, count);
+        var res = objectToTest.getMatchesBySummonerName(summonerName, count);
 
         // Assert
         assertNotNull(res);
@@ -89,14 +88,14 @@ class SummonerControllerTest {
     void testGetMatchesBySummonerPuuid() {
 
         // Arrange
-        String puuid = "summoner-123";
-        Integer count = 10;
-        SummonerMatches expectedResponse = SummonerMatches.builder().build();
+        var puuid = "summoner-123";
+        var count = 10;
+        var expectedResponse = SummonerMatches.builder().build();
 
         when(summonerService.getSummonerMatchesByPuuid(puuid, count)).thenReturn(expectedResponse);
 
         // Act
-        ResponseEntity<SummonerMatches> res = objectToTest.getMatchesBySummonerPuuid(puuid, count);
+        var res = objectToTest.getMatchesBySummonerPuuid(puuid, count);
 
         // Assert
         assertNotNull(res);

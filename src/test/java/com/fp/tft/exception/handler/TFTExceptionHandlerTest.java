@@ -22,13 +22,13 @@ class TFTExceptionHandlerTest {
     void handleSummonerServiceException() {
 
         // Arrange
-        final ServerError expectedResponseBody = ServerError.builder()
+        var expectedResponseBody = ServerError.builder()
                 .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .message(ErrorCodes.TFT_SERVICE_ERROR.getResponseErrorCode())
                 .build();
 
         // Act
-        final ServerError response = objectToTest.handleSummonerServiceException(new SummonerServiceException("Error"));
+        var response = objectToTest.handleSummonerServiceException(new SummonerServiceException("Error"));
 
         // Assert
         assertEquals(expectedResponseBody, response);
@@ -38,13 +38,13 @@ class TFTExceptionHandlerTest {
     void handleMatchServiceException() {
 
         // Arrange
-        final ServerError expectedResponseBody = ServerError.builder()
+        var expectedResponseBody = ServerError.builder()
                 .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .message(ErrorCodes.TFT_SERVICE_ERROR.getResponseErrorCode())
                 .build();
 
         // Act
-        final ServerError response = objectToTest.handleMatchServiceException(new MatchServiceException("Error"));
+        var response = objectToTest.handleMatchServiceException(new MatchServiceException("Error"));
 
         // Assert
         assertEquals(expectedResponseBody, response);
