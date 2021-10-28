@@ -20,13 +20,13 @@ class GenericExceptionHandlerTest {
     void handleException() {
 
         // Arrange
-        final ServerError expectedResponseBody = ServerError.builder()
+        var expectedResponseBody = ServerError.builder()
                 .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .message(ErrorCodes.GENERIC.getResponseErrorCode())
                 .build();
 
         // Act
-        final ServerError response = objectToTest.handleException(new RuntimeException("Error"));
+        var response = objectToTest.handleException(new RuntimeException("Error"));
 
         // Assert
         assertEquals(expectedResponseBody, response);

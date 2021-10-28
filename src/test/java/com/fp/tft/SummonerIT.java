@@ -37,13 +37,13 @@ class SummonerIT {
     void getSummonerByName() {
 
         // Arrange
-        final HttpHeaders httpHeaders = new HttpHeaders();
+        final var httpHeaders = new HttpHeaders();
 
-        String summonerName = "summonerTestName";
+        var summonerName = "summonerTestName";
         stubGetBySummonerNameCall(summonerName);
 
         // Act
-        final ResponseEntity<Summoner> response = testRestTemplate.exchange("/summoner/by-name/{summonerName}",
+        final var response = testRestTemplate.exchange("/summoner/by-name/{summonerName}",
                 HttpMethod.GET, new HttpEntity<>(httpHeaders), Summoner.class, summonerName);
 
         // Assert
@@ -51,7 +51,7 @@ class SummonerIT {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
 
-        Summoner res = response.getBody();
+        var res = response.getBody();
         assertEquals(summonerName, res.getSummonerName());
         assertEquals(31, res.getSummonerLevel());
     }
@@ -61,13 +61,13 @@ class SummonerIT {
     void getSummonerByPuuid() {
 
         // Arrange
-        final HttpHeaders httpHeaders = new HttpHeaders();
+        final var httpHeaders = new HttpHeaders();
 
-        String puuid = "rN6W0P66QrW1LEl2Ayykh4FFLeUhKaevDn8ew4VbjMfA6Bs_aZTT9xOkseJct7C3otRUgmWWJTbF3Q";
+        var puuid = "rN6W0P66QrW1LEl2Ayykh4FFLeUhKaevDn8ew4VbjMfA6Bs_aZTT9xOkseJct7C3otRUgmWWJTbF3Q";
         stubGetBySummonerPuuidCall(puuid);
 
         // Act
-        final ResponseEntity<Summoner> response = testRestTemplate.exchange("/summoner/by-id/{puuid}",
+        final var response = testRestTemplate.exchange("/summoner/by-id/{puuid}",
                 HttpMethod.GET, new HttpEntity<>(httpHeaders), Summoner.class, puuid);
 
         // Assert
@@ -75,7 +75,7 @@ class SummonerIT {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
 
-        Summoner res = response.getBody();
+        var res = response.getBody();
         assertEquals(puuid, res.getPuuid());
         assertEquals(31, res.getSummonerLevel());
     }
@@ -85,13 +85,13 @@ class SummonerIT {
     void getSummonerByName_Downstream_Error() {
 
         // Arrange
-        final HttpHeaders httpHeaders = new HttpHeaders();
+        final var httpHeaders = new HttpHeaders();
 
-        String summonerName = "summonerTestName";
+        var summonerName = "summonerTestName";
         stubGetBySummonerNameCall_Server_Not_Found_Error(summonerName);
 
         // Act
-        final ResponseEntity<ServerError> response = testRestTemplate.exchange("/summoner/by-name/{summonerName}",
+        final var response = testRestTemplate.exchange("/summoner/by-name/{summonerName}",
                 HttpMethod.GET, new HttpEntity<>(httpHeaders), ServerError.class, summonerName);
 
         // Assert
@@ -99,7 +99,7 @@ class SummonerIT {
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
         assertNotNull(response.getBody());
 
-        ServerError res = response.getBody();
+        var res = response.getBody();
         assertEquals(HttpStatus.NOT_FOUND.value(), res.getCode());
         assertEquals(ErrorCodes.NOT_FOUND.getResponseErrorCode(), res.getMessage());
     }
@@ -109,13 +109,13 @@ class SummonerIT {
     void getSummonerByName_Downstream_Not_Found_Error() {
 
         // Arrange
-        final HttpHeaders httpHeaders = new HttpHeaders();
+        final var httpHeaders = new HttpHeaders();
 
-        String summonerName = "summonerTestName";
+        var summonerName = "summonerTestName";
         stubGetBySummonerNameCall_Server_Error(summonerName);
 
         // Act
-        final ResponseEntity<ServerError> response = testRestTemplate.exchange("/summoner/by-name/{summonerName}",
+        final var response = testRestTemplate.exchange("/summoner/by-name/{summonerName}",
                 HttpMethod.GET, new HttpEntity<>(httpHeaders), ServerError.class, summonerName);
 
         // Assert
@@ -123,7 +123,7 @@ class SummonerIT {
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         assertNotNull(response.getBody());
 
-        ServerError res = response.getBody();
+        var res = response.getBody();
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), res.getCode());
         assertEquals(ErrorCodes.TFT_SERVICE_ERROR.getResponseErrorCode(), res.getMessage());
     }
@@ -132,16 +132,16 @@ class SummonerIT {
     @Test
     void getMatchesBySummonerName() {
         // Arrange
-        final HttpHeaders httpHeaders = new HttpHeaders();
+        final var httpHeaders = new HttpHeaders();
 
-        String summonerName = "summonerTestName";
-        String puuid = "rN6W0P66QrW1LEl2Ayykh4FFLeUhKaevDn8ew4VbjMfA6Bs_aZTT9xOkseJct7C3otRUgmWWJTbF3Q";
-        Integer count = 5;
+        var summonerName = "summonerTestName";
+        var puuid = "rN6W0P66QrW1LEl2Ayykh4FFLeUhKaevDn8ew4VbjMfA6Bs_aZTT9xOkseJct7C3otRUgmWWJTbF3Q";
+        var count = 5;
         stubGetBySummonerNameCall(summonerName);
         stubGetMatchIdListByPuuid(puuid, count);
 
         // Act
-        final ResponseEntity<SummonerMatches> response = testRestTemplate.exchange("/summoner/by-name/{summonerName}/matches?count={count}",
+        final var response = testRestTemplate.exchange("/summoner/by-name/{summonerName}/matches?count={count}",
                 HttpMethod.GET, new HttpEntity<>(httpHeaders), SummonerMatches.class, summonerName, count);
 
         // Assert
@@ -149,7 +149,7 @@ class SummonerIT {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
 
-        SummonerMatches res = response.getBody();
+        var res = response.getBody();
         assertEquals(4, res.getMatchCount());
         assertNotNull(res.getMatchIds());
         assertEquals(4, res.getMatchIds().size());
@@ -159,14 +159,14 @@ class SummonerIT {
     @Test
     void getMatchesBySummonerPuuid() {
         // Arrange
-        final HttpHeaders httpHeaders = new HttpHeaders();
+        final var httpHeaders = new HttpHeaders();
 
-        String puuid = "rN6W0P66QrW1LEl2Ayykh4FFLeUhKaevDn8ew4VbjMfA6Bs_aZTT9xOkseJct7C3otRUgmWWJTbF3Q";
-        Integer count = 5;
+        var puuid = "rN6W0P66QrW1LEl2Ayykh4FFLeUhKaevDn8ew4VbjMfA6Bs_aZTT9xOkseJct7C3otRUgmWWJTbF3Q";
+        var count = 5;
         stubGetMatchIdListByPuuid(puuid, count);
 
         // Act
-        final ResponseEntity<SummonerMatches> response = testRestTemplate.exchange("/summoner/by-id/{puuid}/matches?count={count}",
+        final var response = testRestTemplate.exchange("/summoner/by-id/{puuid}/matches?count={count}",
                 HttpMethod.GET, new HttpEntity<>(httpHeaders), SummonerMatches.class, puuid, count);
 
         // Assert
@@ -174,7 +174,7 @@ class SummonerIT {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
 
-        SummonerMatches res = response.getBody();
+        var res = response.getBody();
         assertEquals(4, res.getMatchCount());
         assertNotNull(res.getMatchIds());
         assertEquals(4, res.getMatchIds().size());
@@ -184,16 +184,16 @@ class SummonerIT {
     @Test
     void getMatchesBySummonerName_Downstream_Error() {
         // Arrange
-        final HttpHeaders httpHeaders = new HttpHeaders();
+        final var httpHeaders = new HttpHeaders();
 
-        String summonerName = "summonerTestName";
-        String puuid = "rN6W0P66QrW1LEl2Ayykh4FFLeUhKaevDn8ew4VbjMfA6Bs_aZTT9xOkseJct7C3otRUgmWWJTbF3Q";
-        Integer count = 5;
+        var summonerName = "summonerTestName";
+        var puuid = "rN6W0P66QrW1LEl2Ayykh4FFLeUhKaevDn8ew4VbjMfA6Bs_aZTT9xOkseJct7C3otRUgmWWJTbF3Q";
+        var count = 5;
         stubGetBySummonerNameCall(summonerName);
         stubGetMatchIdListByPuuid_Server_Error(puuid, count);
 
         // Act
-        final ResponseEntity<ServerError> response = testRestTemplate.exchange("/summoner/by-name/{summonerName}/matches?count={count}",
+        final var response = testRestTemplate.exchange("/summoner/by-name/{summonerName}/matches?count={count}",
                 HttpMethod.GET, new HttpEntity<>(httpHeaders), ServerError.class, summonerName, count);
 
         // Assert
@@ -201,7 +201,7 @@ class SummonerIT {
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
         assertNotNull(response.getBody());
 
-        ServerError res = response.getBody();
+        var res = response.getBody();
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), res.getCode());
         assertEquals(ErrorCodes.TFT_SERVICE_ERROR.getResponseErrorCode(), res.getMessage());
     }

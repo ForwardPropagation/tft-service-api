@@ -1,7 +1,5 @@
 package com.fp.tft.mapper;
 
-import com.fp.tft.api.models.Summoner;
-import com.fp.tft.api.models.SummonerMatches;
 import com.fp.tft.riot.api.SummonerV4SummonerDTO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,7 +7,6 @@ import org.mapstruct.factory.Mappers;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,7 +19,7 @@ class SummonerMapperTest {
     void testMapSummonerDtoToSummoner() {
 
         // Arrange
-        SummonerV4SummonerDTO summonerDTO = new SummonerV4SummonerDTO()
+        var summonerDTO = new SummonerV4SummonerDTO()
                 .id("summoner-123")
                 .accountId("account-321")
                 .name("summonerName")
@@ -32,7 +29,7 @@ class SummonerMapperTest {
                 .revisionDate(15645654465L);
 
         // Act
-        Summoner res = objectToTest.mapSummonerDtoToSummoner(summonerDTO);
+        var res = objectToTest.mapSummonerDtoToSummoner(summonerDTO);
 
         // Assert
         assertNotNull(res);
@@ -47,7 +44,7 @@ class SummonerMapperTest {
     void testMapSummonerDtoToSummoner_Null() {
 
         // Arrange & Act
-        Summoner res = objectToTest.mapSummonerDtoToSummoner(null);
+        var res = objectToTest.mapSummonerDtoToSummoner(null);
 
         // Assert
         assertNull(res);
@@ -57,10 +54,10 @@ class SummonerMapperTest {
     void testMapMatchListToSummonerMatches() {
 
         // Arrange
-        List<String> matchIdList = Arrays.asList("NA_1", "NA_2", "NA_3");
+        var matchIdList = Arrays.asList("NA_1", "NA_2", "NA_3");
 
         // Act
-        SummonerMatches res = objectToTest.mapMatchListToSummonerMatches(matchIdList);
+        var res = objectToTest.mapMatchListToSummonerMatches(matchIdList);
 
         // Assert
         assertNotNull(res);
@@ -72,7 +69,7 @@ class SummonerMapperTest {
     void testMapMatchListToSummonerMatches_Null() {
 
         // Arrange & Act
-        SummonerMatches res = objectToTest.mapMatchListToSummonerMatches(null);
+        var res = objectToTest.mapMatchListToSummonerMatches(null);
 
         // Assert
         assertNull(res);
@@ -82,10 +79,10 @@ class SummonerMapperTest {
     void testMapMatchListToSummonerMatches_Null_MatchCount() {
 
         // Arrange
-        List<String> matchIdList = Arrays.asList("NA_1", "NA_2", "NA_3");
+        var matchIdList = Arrays.asList("NA_1", "NA_2", "NA_3");
 
         // Act
-        SummonerMatches res = objectToTest.mapMatchListToSummonerMatches(null, matchIdList);
+        var res = objectToTest.mapMatchListToSummonerMatches(null, matchIdList);
 
         // Assert
         assertNotNull(res);
@@ -97,10 +94,10 @@ class SummonerMapperTest {
     void testMapMatchListToSummonerMatches_Null_MatchIds() {
 
         // Arrange
-        List<String> matchIdList = Arrays.asList("NA_1", "NA_2", "NA_3");
+        var matchIdList = Arrays.asList("NA_1", "NA_2", "NA_3");
 
         // Act
-        SummonerMatches res = objectToTest.mapMatchListToSummonerMatches(matchIdList.size(), null);
+        var res = objectToTest.mapMatchListToSummonerMatches(matchIdList.size(), null);
 
         // Assert
         assertNotNull(res);
