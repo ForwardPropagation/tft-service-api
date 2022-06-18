@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.6.2</version>
+		<version>2.7.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.fp</groupId>
@@ -18,20 +18,20 @@
 		<java.version>11</java.version>
 
 		<!-- Dependency Versions -->
-		<org.projectlombok.version>1.18.22</org.projectlombok.version>
-		<org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
+		<org.projectlombok.version>1.18.24</org.projectlombok.version>
+		<org.mapstruct.version>1.5.1.Final</org.mapstruct.version>
 		<lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
-		<mvn-pmd-plugin.version>3.15.0</mvn-pmd-plugin.version>
+		<mvn-pmd-plugin.version>3.17.0</mvn-pmd-plugin.version>
 
 		<!-- Code Gen Versions -->
-		<openapi-generator-maven-plugin.version>5.3.1</openapi-generator-maven-plugin.version>
+		<openapi-generator-maven-plugin.version>6.0.0</openapi-generator-maven-plugin.version>
 		<springfox.version>3.0.0</springfox.version>
-		<jackson-databind-nullable.version>0.2.1</jackson-databind-nullable.version>
+		<jackson-databind-nullable.version>0.2.2</jackson-databind-nullable.version>
 		<jsr305.version>3.0.2</jsr305.version>
 
 		<!-- Test Versions -->
-		<jacoco-maven-plugin.version>0.8.7</jacoco-maven-plugin.version>
-		<wiremock.version>2.27.2</wiremock.version>
+		<jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
+		<wiremock.version>2.33.2</wiremock.version>
 	</properties>
 
 	<dependencies>
@@ -98,7 +98,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.github.tomakehurst</groupId>
-			<artifactId>wiremock</artifactId>
+			<artifactId>wiremock-jre8</artifactId>
 			<version>${wiremock.version}</version>
 			<scope>test</scope>
 		</dependency>
