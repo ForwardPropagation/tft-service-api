@@ -36,10 +36,10 @@ public class SummonerProvider {
         try {
             response = restTemplate.getForEntity(url, SummonerV4SummonerDTO.class);
         } catch (RestClientResponseException e) {
-            log.debug("Summoner Service Error with Status Code {} and Response: {}", e.getRawStatusCode(), e.getResponseBodyAsString());
-            log.error("Error calling TFT Summoner Service with Status Code: {}", e.getRawStatusCode());
+            log.debug("Summoner Service Error with Status Code {} and Response: {}", e.getStatusCode(), e.getResponseBodyAsString());
+            log.error("Error calling TFT Summoner Service with Status Code: {}", e.getStatusCode());
 
-            if (HttpStatus.NOT_FOUND.value() == e.getRawStatusCode())
+            if (HttpStatus.NOT_FOUND == e.getStatusCode())
                 throw new ResourceNotFoundException("Error calling TFT Summoner Service - Summoner not found!", e);
 
             throw new SummonerServiceException("Error calling TFT Summoner Service!", e);

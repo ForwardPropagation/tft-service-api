@@ -43,10 +43,10 @@ class MatchServiceTemplateProviderTest {
         // Assert
         assertNotNull(res);
 
-        verify(tftServiceConfig, times(1)).getApiKey();
-        verify(matchServiceConfig, times(1)).getBaseUri();
-        verify(matchServiceConfig, times(1)).getReadTimeout();
-        verify(matchServiceConfig, times(1)).getConnectTimeout();
-        verify(restTemplateBuilder, times(1)).uriTemplateHandler(any());
+        verify(tftServiceConfig).getApiKey();
+        verify(matchServiceConfig).getBaseUri();
+        verify(matchServiceConfig).getReadTimeout();
+        verify(matchServiceConfig).getConnectTimeout();
+        verify(restTemplateBuilder).uriTemplateHandler(any());
     }
 }

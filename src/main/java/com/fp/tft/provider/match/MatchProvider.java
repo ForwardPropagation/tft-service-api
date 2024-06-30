@@ -39,10 +39,10 @@ public class MatchProvider {
                     null,
                     new ParameterizedTypeReference<List<String>>() {});
         } catch (RestClientResponseException e) {
-            log.debug("Match Service Error with Status Code {} and Response: {}", e.getRawStatusCode(), e.getResponseBodyAsString());
-            log.error("Error calling TFT Match Service with Status Code: {}", e.getRawStatusCode());
+            log.debug("Match Service Error with Status Code {} and Response: {}", e.getStatusCode(), e.getResponseBodyAsString());
+            log.error("Error calling TFT Match Service with Status Code: {}", e.getStatusCode());
 
-            if (HttpStatus.NOT_FOUND.value() == e.getRawStatusCode())
+            if (HttpStatus.NOT_FOUND == e.getStatusCode())
                 throw new ResourceNotFoundException("Error calling TFT Match Service - Summoner Matches not found!", e);
 
             throw new MatchServiceException("Error calling TFT Match Service!", e);

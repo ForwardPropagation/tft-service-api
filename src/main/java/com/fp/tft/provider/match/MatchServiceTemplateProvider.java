@@ -1,7 +1,7 @@
 package com.fp.tft.provider.match;
 
 import com.fp.tft.provider.TFTServiceConfig;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +13,7 @@ import org.springframework.web.util.DefaultUriBuilderFactory;
 import java.time.Duration;
 
 @Configuration
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class MatchServiceTemplateProvider {
 
     private final RestTemplateBuilder builder;

@@ -8,12 +8,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -37,7 +37,7 @@ class MatchProviderTest {
         // Arrange
         var puuid = "lLsFGUayoAmkT4Vug6X9jqt8_gF05Iuhc8rsYlu1QLHRZyExXvJqybBXIUWzeZXm8TJPVMM7w1BdQQ";
         var count = 100;
-        List<String> expectedRes = new ArrayList<>();
+        var expectedRes = new ArrayList<String>();
 
         when(restTemplate.exchange(eq("/"+MatchProvider.BY_PUUID_PATH+"/"+puuid+"/"+MatchProvider.ID_PATH+"?"+MatchProvider.COUNT_QUERY_PARAM+"="+count),
                 eq(HttpMethod.GET), any(), any(ParameterizedTypeReference.class))).thenReturn(ResponseEntity.ok(expectedRes));
@@ -48,8 +48,7 @@ class MatchProviderTest {
         // Assert
         assertEquals(expectedRes, res);
 
-        verify(restTemplate, times(1))
-                .exchange(anyString(), eq(HttpMethod.GET), any(), any(ParameterizedTypeReference.class));
+        verify(restTemplate).exchange(anyString(), eq(HttpMethod.GET), any(), any(ParameterizedTypeReference.class));
     }
 
     @Test
@@ -57,7 +56,7 @@ class MatchProviderTest {
 
         // Arrange
         var puuid = "lLsFGUayoAmkT4Vug6X9jqt8_gF05Iuhc8rsYlu1QLHRZyExXvJqybBXIUWzeZXm8TJPVMM7w1BdQQ";
-        List<String> expectedRes = new ArrayList<>();
+        var expectedRes = new ArrayList<String>();
 
         when(restTemplate.exchange(eq("/"+MatchProvider.BY_PUUID_PATH+"/"+puuid+"/"+MatchProvider.ID_PATH+"?"+MatchProvider.COUNT_QUERY_PARAM+"=10"),
                 eq(HttpMethod.GET), any(), any(ParameterizedTypeReference.class))).thenReturn(ResponseEntity.ok(expectedRes));
@@ -68,8 +67,7 @@ class MatchProviderTest {
         // Assert
         assertEquals(expectedRes, res);
 
-        verify(restTemplate, times(1))
-                .exchange(anyString(), eq(HttpMethod.GET), any(), any(ParameterizedTypeReference.class));
+        verify(restTemplate).exchange(anyString(), eq(HttpMethod.GET), any(), any(ParameterizedTypeReference.class));
     }
 
     @Test
@@ -80,7 +78,7 @@ class MatchProviderTest {
         var count = 100;
 
         var exception = mock(RestClientResponseException.class);
-        when(exception.getRawStatusCode()).thenReturn(500);
+        when(exception.getStatusCode()).thenReturn(HttpStatus.INTERNAL_SERVER_ERROR);
         when(exception.getResponseBodyAsString()).thenReturn("");
 
         when(restTemplate.exchange(eq("/"+MatchProvider.BY_PUUID_PATH+"/"+puuid+"/"+MatchProvider.ID_PATH+"?"+MatchProvider.COUNT_QUERY_PARAM+"="+count),
@@ -89,8 +87,7 @@ class MatchProviderTest {
         // Act & Assert
         assertThrows(MatchServiceException.class, () -> objectToTest.getMatchIdListByPuuid(puuid, count));
 
-        verify(restTemplate, times(1))
-                .exchange(anyString(), eq(HttpMethod.GET), any(), any(ParameterizedTypeReference.class));
+        verify(restTemplate).exchange(anyString(), eq(HttpMethod.GET), any(), any(ParameterizedTypeReference.class));
     }
 
     @Test
@@ -101,7 +98,7 @@ class MatchProviderTest {
         var count = 100;
 
         var exception = mock(RestClientResponseException.class);
-        when(exception.getRawStatusCode()).thenReturn(404);
+        when(exception.getStatusCode()).thenReturn(HttpStatus.NOT_FOUND);
         when(exception.getResponseBodyAsString()).thenReturn("");
 
         when(restTemplate.exchange(eq("/"+MatchProvider.BY_PUUID_PATH+"/"+puuid+"/"+MatchProvider.ID_PATH+"?"+MatchProvider.COUNT_QUERY_PARAM+"="+count),
@@ -110,8 +107,7 @@ class MatchProviderTest {
         // Act & Assert
         assertThrows(ResourceNotFoundException.class, () -> objectToTest.getMatchIdListByPuuid(puuid, count));
 
-        verify(restTemplate, times(1))
-                .exchange(anyString(), eq(HttpMethod.GET), any(), any(ParameterizedTypeReference.class));
+        verify(restTemplate).exchange(anyString(), eq(HttpMethod.GET), any(), any(ParameterizedTypeReference.class));
     }
 
     @Test
@@ -127,7 +123,6 @@ class MatchProviderTest {
         // Act & Assert
         assertThrows(MatchServiceException.class, () -> objectToTest.getMatchIdListByPuuid(puuid, count));
 
-        verify(restTemplate, times(1))
-                .exchange(anyString(), eq(HttpMethod.GET), any(), any(ParameterizedTypeReference.class));
+        verify(restTemplate).exchange(anyString(), eq(HttpMethod.GET), any(), any(ParameterizedTypeReference.class));
     }
 }

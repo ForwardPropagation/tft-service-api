@@ -7,6 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
@@ -42,7 +43,7 @@ class SummonerProviderTest {
         // Assert
         assertEquals(expectedRes, res);
 
-        verify(restTemplate, times(1)).getForEntity(anyString(), eq(SummonerV4SummonerDTO.class));
+        verify(restTemplate).getForEntity(anyString(), eq(SummonerV4SummonerDTO.class));
     }
 
     @Test
@@ -61,7 +62,7 @@ class SummonerProviderTest {
         // Assert
         assertEquals(expectedRes, res);
 
-        verify(restTemplate, times(1)).getForEntity(anyString(), eq(SummonerV4SummonerDTO.class));
+        verify(restTemplate).getForEntity(anyString(), eq(SummonerV4SummonerDTO.class));
     }
 
     @Test
@@ -71,7 +72,7 @@ class SummonerProviderTest {
         var summonerName = "testSummoner";
 
         var exception = mock(RestClientResponseException.class);
-        when(exception.getRawStatusCode()).thenReturn(500);
+        when(exception.getStatusCode()).thenReturn(HttpStatus.INTERNAL_SERVER_ERROR);
         when(exception.getResponseBodyAsString()).thenReturn("");
 
         when(restTemplate.getForEntity(eq("/"+SummonerProvider.BY_NAME_PATH+"/"+summonerName), eq(SummonerV4SummonerDTO.class)))
@@ -80,7 +81,7 @@ class SummonerProviderTest {
         // Act & Assert
         assertThrows(SummonerServiceException.class, () -> objectToTest.getSummonerByName(summonerName));
 
-        verify(restTemplate, times(1)).getForEntity(anyString(), eq(SummonerV4SummonerDTO.class));
+        verify(restTemplate).getForEntity(anyString(), eq(SummonerV4SummonerDTO.class));
     }
 
     @Test
@@ -90,7 +91,7 @@ class SummonerProviderTest {
         var summonerName = "testSummoner";
 
         var exception = mock(RestClientResponseException.class);
-        when(exception.getRawStatusCode()).thenReturn(404);
+        when(exception.getStatusCode()).thenReturn(HttpStatus.NOT_FOUND);
         when(exception.getResponseBodyAsString()).thenReturn("");
 
         when(restTemplate.getForEntity(eq("/"+SummonerProvider.BY_NAME_PATH+"/"+summonerName), eq(SummonerV4SummonerDTO.class)))
@@ -99,7 +100,7 @@ class SummonerProviderTest {
         // Act & Assert
         assertThrows(ResourceNotFoundException.class, () -> objectToTest.getSummonerByName(summonerName));
 
-        verify(restTemplate, times(1)).getForEntity(anyString(), eq(SummonerV4SummonerDTO.class));
+        verify(restTemplate).getForEntity(anyString(), eq(SummonerV4SummonerDTO.class));
     }
 
     @Test
@@ -114,6 +115,6 @@ class SummonerProviderTest {
         // Act & Assert
         assertThrows(SummonerServiceException.class, () -> objectToTest.getSummonerByName(summonerName));
 
-        verify(restTemplate, times(1)).getForEntity(anyString(), eq(SummonerV4SummonerDTO.class));
+        verify(restTemplate).getForEntity(anyString(), eq(SummonerV4SummonerDTO.class));
     }
 }

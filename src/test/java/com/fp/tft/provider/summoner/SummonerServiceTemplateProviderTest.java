@@ -43,10 +43,10 @@ class SummonerServiceTemplateProviderTest {
         // Assert
         assertNotNull(res);
 
-        verify(tftServiceConfig, times(1)).getApiKey();
-        verify(summonerServiceConfig, times(1)).getBaseUri();
-        verify(summonerServiceConfig, times(1)).getReadTimeout();
-        verify(summonerServiceConfig, times(1)).getConnectTimeout();
-        verify(restTemplateBuilder, times(1)).uriTemplateHandler(any());
+        verify(tftServiceConfig).getApiKey();
+        verify(summonerServiceConfig).getBaseUri();
+        verify(summonerServiceConfig).getReadTimeout();
+        verify(summonerServiceConfig).getConnectTimeout();
+        verify(restTemplateBuilder).uriTemplateHandler(any());
     }
 }
