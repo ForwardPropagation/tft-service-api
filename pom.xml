@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.3.1</version>
+		<version>3.3.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.fp</groupId>
@@ -21,18 +21,18 @@
 		<org.projectlombok.version>1.18.34</org.projectlombok.version>
 		<org.mapstruct.version>1.5.5.Final</org.mapstruct.version>
 		<lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
-		<mvn-pmd-plugin.version>3.23.0</mvn-pmd-plugin.version>
+		<mvn-pmd-plugin.version>3.26.0</mvn-pmd-plugin.version>
 
 		<!-- Code Gen Versions -->
-		<openapi-generator-maven-plugin.version>7.6.0</openapi-generator-maven-plugin.version>
+		<openapi-generator-maven-plugin.version>7.9.0</openapi-generator-maven-plugin.version>
 		<springfox.version>3.0.0</springfox.version>
-		<swagger-annotations.version>2.2.22</swagger-annotations.version>
+		<swagger-annotations.version>2.2.25</swagger-annotations.version>
 		<jackson-databind-nullable.version>0.2.6</jackson-databind-nullable.version>
 		<jsr305.version>3.0.2</jsr305.version>
 
 		<!-- Test Versions -->
 		<jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
-		<wiremock.version>3.7.0</wiremock.version>
+		<wiremock.version>3.9.2</wiremock.version>
 	</properties>
 
 	<dependencies>
