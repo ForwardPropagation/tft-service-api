@@ -102,6 +102,7 @@ class SummonerMapperTest {
         // Assert
         assertNotNull(res);
         assertEquals(matchIdList.size(), res.getMatchCount());
-        assertNull(res.getMatchIds());
+        assertNotNull(res.getMatchIds());
+        assertTrue(res.getMatchIds().isEmpty());
     }
 }
